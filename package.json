@@ -1,0 +1,23 @@
+{
+  "name": "bms-push-notifications",
+  "version": "0.0.1",
+  "description": "Library for sending push notifications via Bluemix Push Notifications services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibm-bluemix-mobile-services/bms-pushnotifications-serversdk-nodejs.git"
+  },
+  "keywords": [
+    "bluemix",
+    "push"
+  ],
+  "author": "IBM",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ibm-bluemix-mobile-services/bms-pushnotifications-serversdk-nodejs/issues"
+  },
+  "homepage": "https://github.com/ibm-bluemix-mobile-services/bms-pushnotifications-serversdk-nodejs#readme"
+}
