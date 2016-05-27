@@ -1,8 +1,11 @@
 {
   "name": "bms-push-notifications",
+  "dependencies": {
+      "request": ">=2.0.0"
+  },
   "version": "0.0.1",
   "description": "Library for sending push notifications via Bluemix Push Notifications services",
-  "main": "index.js",
+  "main": "./lib/PushNotifications.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
