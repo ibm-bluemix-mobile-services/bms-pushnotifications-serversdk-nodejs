@@ -1,7 +1,10 @@
 {
   "name": "bms-push-notifications",
   "dependencies": {
-      "request": ">=2.0.0"
+      "request": ">=2.0.0",
+      "underscore": ">=1.0.0",
+      "mocha": ">=2.0.0",
+      "chai": ">=3.0.0"
   },
   "version": "0.0.1",
   "description": "Library for sending push notifications via Bluemix Push Notifications services",
