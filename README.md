@@ -1,1 +1,78 @@
-# bms-pushnotifications-serversdk-nodejs
+# BluemixPushNotifications
+
+
+## Summary
+
+BluemixPushNotifications is a Node.js SDK for sending push notifications via Bluemix Push Notifications services.
+
+
+## Installation
+
+```bash
+npm install bms-push-notifications --save
+```
+
+
+## Usage
+
+```javascript
+var PushNotifications = require('bms-push-notifications').PushNotifications;
+var Notification = require('bms-push-notifications').Notification;
+```
+
+Initialize PushNotifications with details about your Bluemix Push Notifications service. 
+
+```javascript
+var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
+```
+**Note:** The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. The three options are `PushNotifications.Region.US_SOUTH`, `PushNotifications.Region.UK`, and `PushNotifications.Region.SYDNEY`.
+
+Next, create the push notification that you want to broadcast by supplying the alert message you want displayed. 
+
+```javascript
+var notificationExample = new Notification("Testing BluemixPushNotifications");
+```
+
+An optional URL may be supplied with the alert.
+
+```javascript
+notificationExample.setUrl("www.example.com");
+```
+
+You can specify which devices the notification should be sent to and customize the alert they receive.
+
+```javascript
+// setTarget(deviceIds, platforms, tagNames, userIds)
+notificationExample.setTarget(["device1", "device2"], [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], ["tag1", "tag2"], ["user1", "user2"]);
+// setApnsSettings(badge, category, iosActionKey, sound, type, payload)
+notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"});
+// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
+notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0);
+```
+
+Finally, send the Push notification.
+
+```javascript
+myPushNotifications.send(notificationExample, function(error, response, body) {
+    console.log("Error: " + error);
+    console.log("Response: " + JSON.stringify(response));
+    console.log("Body: " + body);
+});
+```
+
+
+## License
+
+Copyright 2016 IBM Corp.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
