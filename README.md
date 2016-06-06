@@ -42,8 +42,8 @@ notificationExample.setUrl("www.example.com");
 You can specify which devices the notification should be sent to and customize the alert they receive.
 
 ```javascript
-// setTarget(deviceIds, platforms, tagNames, userIds)
-notificationExample.setTarget(["device1", "device2"], [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], ["tag1", "tag2"], ["user1", "user2"]);
+// setTarget(deviceIds, platforms, tagNames)
+notificationExample.setTarget(["device1", "device2"], [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], ["tag1", "tag2"]);
 // setApnsSettings(badge, category, iosActionKey, sound, type, payload)
 notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"});
 // setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
