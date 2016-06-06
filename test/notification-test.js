@@ -39,6 +39,7 @@ describe('Notification', function() {
           assert.equal(_.difference(notification.json.target.tagNames, ["tag1", "tag2"]).length, 0);
           assert.equal(_.difference(notification.json.target.userIds, ["user1", "user2"]).length, 0);
           
+          // Need to check differences in both directions to make sure the arrays are exactly the same
           assert.equal(_.difference(["device1", "device2"], notification.json.target.deviceIds).length, 0);
           assert.equal(_.difference(["A", "G"], notification.json.target.platforms).length, 0);
           assert.equal(_.difference(["tag1", "tag2"], notification.json.target.tagNames).length, 0);
