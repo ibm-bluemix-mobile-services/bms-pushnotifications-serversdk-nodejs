@@ -9,15 +9,15 @@ BluemixPushNotifications is a Node.js SDK for sending push notifications via Blu
 ## Installation
 
 ```bash
-npm install bms-push-notifications --save
+npm install bluemix-push-notifications --save
 ```
 
 
 ## Usage
 
 ```javascript
-var PushNotifications = require('bms-push-notifications').PushNotifications;
-var Notification = require('bms-push-notifications').Notification;
+var PushNotifications = require('bluemix-push-notifications').PushNotifications;
+var Notification = require('bluemix-push-notifications').Notification;
 ```
 
 Initialize PushNotifications with details about your Bluemix Push Notifications service. 
