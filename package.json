@@ -8,11 +8,11 @@
       "mocha": ">=2.0.0",
       "chai": ">=3.0.0"
   },
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Library for sending push notifications via Bluemix Push Notifications services",
   "main": "./lib/PushNotifications.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
