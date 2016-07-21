@@ -32,14 +32,16 @@ describe('Notification', function() {
   describe('setTarget', function() {
       it('should set all json values correctly', function() {
           var notification = new Notification('test');
-          notification.setTarget(["device1", "device2"], [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], ["tag1", "tag2"]);
+          notification.setTarget(["device1", "device2"], ["user1", "user2"], [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], ["tag1", "tag2"]);
           
           assert.equal(_.difference(notification.json.target.deviceIds, ["device1", "device2"]).length, 0);
+          assert.equal(_.difference(notification.json.target.userIds, ["user1", "user2"]).length, 0);
           assert.equal(_.difference(notification.json.target.platforms, ["A", "G"]).length, 0);
           assert.equal(_.difference(notification.json.target.tagNames, ["tag1", "tag2"]).length, 0);
           
           // Need to check differences in both directions to make sure the arrays are exactly the same
           assert.equal(_.difference(["device1", "device2"], notification.json.target.deviceIds).length, 0);
+          assert.equal(_.difference(["user1", "user2"], notification.json.target.userIds).length, 0);
           assert.equal(_.difference(["A", "G"], notification.json.target.platforms).length, 0);
           assert.equal(_.difference(["tag1", "tag2"], notification.json.target.tagNames).length, 0);
       });
