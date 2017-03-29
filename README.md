@@ -50,12 +50,22 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 // setTarget(deviceIds, userIds, platforms, tagNames)
 notificationExample.setTarget(["device1", "device2"], 
                               ["user1", "user2"], 
-                              [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], 
+                              [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox,
+                              Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppextChrome], 
                               ["tag1", "tag2"]);
-// setApnsSettings(badge, category, iosActionKey, sound, type, payload)
-notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"});
-// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
-notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0);
+
+// setApnsSettings(badge, category, iosActionKey, sound, type, payload, titleLocKey, locKey, launchImage, titleLocArgs, locArgs, subtitle, title, attachmentUrl)
+notificationExample.setApnsSettings(1,"category","iosActionKey","sound",Notification.ApnsType.DEFAULT,{key: "value"},"titleLocKey","locKey","launchImage",["titeLocArgs1","titeLocArgs2"],["locArgs1","locArgs2"],"subTitle","title","attachmentUrl");
+// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive, icon, sync, visibility, style)
+notificationExample.setGcmSettings("collapseKey", true, {key: "value"}, Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0, "icon", true, Notification.Visibility.PUBLIC, {type: "type"});
+// setSafariWebSettings(title, urlArgs, action) 
+notificationExample.setSafariWebSettings("title",["urlArgs1","urlArgs2"],"action");
+// setFirefoxWebSettings(title, iconUrl, timeToLive, payload)
+notificationExample.setFirefoxWebSettings("title", "iconUrl", 1.0, {key: "value"});
+// setChromeAppExtSettings(collapseKey, delayWhileIdle, title, iconUrl, timeToLive, payload)
+notificationExample.setChromeAppExtSettings("collapseKey", true, "pushappextension", "iconUrl", 1.0, { key: "value" });
+// setChromeSettings(title, iconUrl, timeToLive, payload) 
+notificationExample.setChromeSettings("title", "iconUrl", 1.0, { key: "value" });
 ```
 
 Finally, send the Push notification.
