@@ -119,7 +119,7 @@ describe('Notification', function () {
             assert.equal(_.values(notification.json.settings.gcm.style)[0], "BIGTEST_NOTIFICATION");
             assert.equal(_.keys(notification.json.settings.gcm.lights)[0], "ledArgb");
             assert.equal(_.values(notification.json.settings.gcm.lights)[0], "BLACK");
-        })
+        });
         it('should not set json values when null is input', function () {
             var notification = new Notification('test');
             notification.setGcmSettings(null, null, null, null, null, null, null, null, null, null);
