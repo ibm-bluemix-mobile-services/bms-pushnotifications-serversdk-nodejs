@@ -2,7 +2,8 @@
   "name": "bluemix-push-notifications",
   "dependencies": {
       "request": ">=2.0.0",
-      "cfenv": ">=1.0.0"
+      "cfenv": ">=1.0.0",
+      "deprecate":">=1.0.0"
   },
   "devDependencies": {
       "underscore": ">=1.0.0",
