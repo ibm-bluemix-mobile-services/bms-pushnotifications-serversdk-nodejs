@@ -23,6 +23,9 @@ npm install bluemix-push-notifications --save
 ```javascript
 var PushNotifications = require('bluemix-push-notifications').PushNotifications;
 var Notification = require('bluemix-push-notifications').Notification;
+
+//Require this model to use different builder each for Apns (ApnsBuilder), Gcm(GcmBuilder), FirefoxWeb (FirefoxWebBuilder), SafariWeb (SafariWebBuilder), ChromeWeb (ChromeWebBuilder), ChromeAppExt (ChromeAppExtBuilder).
+var Model = PushNotifications.PushMessageModel;
 ```
 
 Initialize PushNotifications with details about your Bluemix Push Notifications service. 
@@ -46,26 +49,63 @@ notificationExample.setUrl("www.example.com");
 
 You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
 
+Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extral optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
+
 ```javascript
 // setTarget(deviceIds, userIds, platforms, tagNames)
 notificationExample.setTarget(["device1", "device2"], 
                               ["user1", "user2"], 
-                              [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox,
-                              Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppextChrome], 
-                              ["tag1", "tag2"]);
+                              [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], 
+                              ["tag1", "tag2"]); // This approach is deprecated
 
-// setApnsSettings(badge, category, iosActionKey, sound, type, payload, titleLocKey, locKey, launchImage, titleLocArgs, locArgs, subtitle, title, attachmentUrl)
-notificationExample.setApnsSettings(1,"category","iosActionKey","sound",Notification.ApnsType.DEFAULT,{key: "value"},"titleLocKey","locKey","launchImage",["titeLocArgs1","titeLocArgs2"],["locArgs1","locArgs2"],"subTitle","title","attachmentUrl");
-// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive, icon, sync, visibility, style)
-notificationExample.setGcmSettings("collapseKey", true, {key: "value"}, Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0, "icon", true, Notification.Visibility.PUBLIC, {type: "type"});
-// setSafariWebSettings(title, urlArgs, action) 
-notificationExample.setSafariWebSettings("title",["urlArgs1","urlArgs2"],"action");
-// setFirefoxWebSettings(title, iconUrl, timeToLive, payload)
-notificationExample.setFirefoxWebSettings("title", "iconUrl", 1.0, {key: "value"});
-// setChromeAppExtSettings(collapseKey, delayWhileIdle, title, iconUrl, timeToLive, payload)
-notificationExample.setChromeAppExtSettings("collapseKey", true, "pushappextension", "iconUrl", 1.0, { key: "value" });
-// setChromeSettings(title, iconUrl, timeToLive, payload) 
-notificationExample.setChromeSettings("title", "iconUrl", 1.0, { key: "value" });
+
+ // New approach below, you only need to set attributes which are required :
+
+notification.setTarget(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Target)).deviceIds(["device1", "device2"]).userIds(["user1", "user2"]). platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
+, Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]));
+
+
+// setApnsSettings(badge, category, iosActionKey, sound, type, payload)
+notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"}); // This is deprecated
+
+// New approach below, you only need to set attributes which are required :
+// for Apns Settings
+
+notification.setApnsSettings(
+new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Apns)).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
+type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
+.titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl"));
+
+
+// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
+notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0); // This is deprecated
+
+// New approach for GCM , for newly added options style and lights , you need to construct there json first if you want to use them.
+
+
+var settings = new Model.settings();
+            
+var style = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmStyle)).type(Notification.GcmStyleTypes.BIGTEST_NOTIFICATION);
+var lights = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmLights)).ledArgb(Notification.GcmLED.BLACK);
+notification.setGcmSettings(
+settings    .settingsBuilder(Model.builderFactory(Notification.Builder.Gcm)).collapseKey("collapseKey").delayWhileIdle(true).payload({ key: "value" })
+.priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights));
+
+// For Safari..
+notification.setSafariWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.SafariWeb)).title("title").urlArgs(["urlArgs1", "urlArgs2"]).action("action"));
+
+// For Firefox..
+notification.setFirefoxWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.FirefoxWeb)).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
+
+//For ChromeAppExtension..
+notification.setChromeAppExtSettings(
+new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.ChromeAppExt)).collapseKey("collapseKey").delayWhileIdle(true).title("title")
+.iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
+
+
+//For Chrome..
+notification.setChromeSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.ChromeWeb)).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
+
 ```
 
 Finally, send the Push notification.
@@ -78,7 +118,7 @@ myPushNotifications.send(notificationExample, function(error, response, body) {
 });
 ```
 
-
+a
 ## License
 
 Copyright 2016 IBM Corp.
