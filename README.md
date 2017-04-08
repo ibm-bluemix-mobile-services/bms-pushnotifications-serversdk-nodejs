@@ -61,7 +61,7 @@ notificationExample.setTarget(["device1", "device2"],
 
  // New approach below, you only need to set attributes which are required :
 
-notificationExample.setTarget(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Target)).deviceIds(["device1", "device2"]).userIds(["user1", "user2"]). platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
+notificationExample.setTargetValues(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Target)).deviceIds(["device1", "device2"]).userIds(["user1", "user2"]). platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
 , Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]));
 
 
@@ -71,7 +71,7 @@ notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", 
 // New approach below, you only need to set attributes which are required :
 // for Apns Settings
 
-notificationExample.setApnsSettings(
+notificationExample.setApnsSettingsValues(
 new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Apns)).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
 type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
 .titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl"));
@@ -85,19 +85,20 @@ notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.
 
 var settings = new Model.settings();
 
-// style json creation            
-var style = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmStyle)).type(Notification.GcmStyleTypes.BIGTEST_NOTIFICATION);
+// If your require style settings you can create style json as shown below;           
+var style = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmStyle)).type(Notification.GcmStyleTypes.BIGTEST_NOTIFICATION).text("text").title("title").url("url").lines(["lines"]);
+var lights = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmLights)).ledArgb(Notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
 
-// lights json creaton
+// If you require lights settings you can create lights json as shown below:
 var lights = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmLights)).ledArgb(Notification.GcmLED.BLACK);
 
 // Finally gcm settings creation
-notificationExample.setGcmSettings(
+notificationExample.setGcmSettingsValues(
 settings    .settingsBuilder(Model.builderFactory(Notification.Builder.Gcm)).collapseKey("collapseKey").delayWhileIdle(true).payload({ key: "value" })
 .priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights));
 
-// For Safari..
-notificationExample.setSafariWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.SafariWeb)).title("title").urlArgs(["urlArgs1", "urlArgs2"]).action("action"));
+// For Safari. All the three settings are mandatory to provide for Safari.
+notificationExample.setSafariWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.SafariWeb)).title("title").urlArgs(["urlArgs1"]).action("action"));
 
 // For Firefox..
 notificationExample.setFirefoxWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.FirefoxWeb)).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
