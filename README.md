@@ -69,7 +69,7 @@ notificationExample.setTargetValues(new Model.settings().settingsBuilder(Model.b
 notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"}); // This is deprecated
 
 // New approach below, you only need to set attributes which are required :
-// for Apns Settings
+// for Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
 
 notificationExample.setApnsSettingsValues(
 new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Apns)).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
@@ -124,7 +124,7 @@ myPushNotifications.send(notificationExample, function(error, response, body) {
 });
 ```
 
-a
+
 ## License
 
 Copyright 2016 IBM Corp.
