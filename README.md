@@ -52,7 +52,7 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extral optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
 
 ```javascript
-// setTarget(deviceIds, userIds, platforms, tagNames)
+// setTarget(deviceIds, userIds, platforms, tagNames), you can either set deviceIds or userIds or Platforms or tatNames
 notificationExample.setTarget(["device1", "device2"], 
                               ["user1", "user2"], 
                               [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], 
@@ -60,7 +60,7 @@ notificationExample.setTarget(["device1", "device2"],
 
 
  // New approach below, you only need to set attributes which are required :
-
+ // ** Note : You can either set deviceIds or userIds or Platforms or tatNames.
 notificationExample.setTargetValues(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Target)).deviceIds(["device1", "device2"]).userIds(["user1", "user2"]). platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
 , Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]));
 
@@ -97,13 +97,13 @@ notificationExample.setGcmSettingsValues(
 settings    .settingsBuilder(Model.builderFactory(Notification.Builder.Gcm)).collapseKey("collapseKey").delayWhileIdle(true).payload({ key: "value" })
 .priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights));
 
-// For Safari. All the three settings are mandatory to provide for Safari.
+// For Safari. All the three settings are mandatory to provide.
 notificationExample.setSafariWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.SafariWeb)).title("title").urlArgs(["urlArgs1"]).action("action"));
 
 // For Firefox..
 notificationExample.setFirefoxWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.FirefoxWeb)).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
 
-//For ChromeAppExtension..
+//For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
 notificationExample.setChromeAppExtSettings(
 new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.ChromeAppExt)).collapseKey("collapseKey").delayWhileIdle(true).title("title")
 .iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
