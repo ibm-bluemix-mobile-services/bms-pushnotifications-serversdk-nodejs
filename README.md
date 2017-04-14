@@ -52,65 +52,71 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extral optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
 
 ```javascript
+
+//Older approach. All Older API mentioned below are deprecated.
+
 // setTarget(deviceIds, userIds, platforms, tagNames), you can either set deviceIds or userIds or Platforms or tatNames
 notificationExample.setTarget(["device1", "device2"], 
                               ["user1", "user2"], 
                               [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], 
-                              ["tag1", "tag2"]); // This approach is deprecated
-
-
- // New approach below, you only need to set attributes which are required :
- // ** Note : You can either set deviceIds or userIds or Platforms or tatNames.
-notificationExample.setTargetValues(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Target)).deviceIds(["device1", "device2"]).userIds(["user1", "user2"]). platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
-, Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]));
+                              ["tag1", "tag2"]); 
 
 
 // setApnsSettings(badge, category, iosActionKey, sound, type, payload)
-notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"}); // This is deprecated
-
-// New approach below, you only need to set attributes which are required :
-// for Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
-
-notificationExample.setApnsSettingsValues(
-new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.Apns)).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
-type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
-.titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl"));
+notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"}); 
 
 
 // setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
-notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0); // This is deprecated
-
-// New approach for GCM , for newly added options style and lights , you need to construct there json first if you want to use them.
+notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0); 
 
 
-var settings = new Model.settings();
+ // New approach below :
+var build = new Model.build(); //create build object for creating builders.
 
-// If your require style settings you can create style json as shown below;           
-var style = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmStyle)).type(Notification.GcmStyleTypes.BIGTEST_NOTIFICATION).text("text").title("title").url("url").lines(["lines"]);
-var lights = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmLights)).ledArgb(Notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
+// ** Note : You can either set deviceIds or userIds or platforms or tatNames.
+var targetBuider = new Model.targetBuilder();
+var target = build.builder(targetBuider).platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox, Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]);
+notificationExample.target(target);
 
-// If you require lights settings you can create lights json as shown below:
-var lights = settings.settingsBuilder(Model.builderFactory(Notification.Builder.GcmLights)).ledArgb(Notification.GcmLED.BLACK);
+// For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
+var apnsBuilder = new Model.apnsBuilder();
+var apns = build.builder(apnsBuilder).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage").titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl");
 
+// For GCM , for newly added options style and lights , you need to construct there json first if you want to use them.
+
+// If your require lights and style settings you can create style and lights objects as shown below;           
+var style = new Model.gcmStyle().type(Notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
+var lights = new Model.gcmLights().ledArgb(Notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
+ 
 // Finally gcm settings creation
-notificationExample.setGcmSettingsValues(
-settings    .settingsBuilder(Model.builderFactory(Notification.Builder.Gcm)).collapseKey("collapseKey").delayWhileIdle(true).payload({ key: "value" })
-.priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights));
+var gcmBuilder = new Model.gcmBuilder();
+var gcm = build.builder(gcmBuilder).collapseKey("collapseKey").delayWhileIdle(true).payload({ key: "value" })
+.priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights);
 
 // For Safari. All the three settings are mandatory to provide.
-notificationExample.setSafariWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.SafariWeb)).title("title").urlArgs(["urlArgs1"]).action("action"));
+var safariWebBuilder = new Model.safariWebBuilder();
+var safariWeb = build.builder(safariWebBuilder).title("title").urlArgs(["urlArgs1"]).action("action");
 
 // For Firefox..
-notificationExample.setFirefoxWebSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.FirefoxWeb)).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
+var firefoxWebBuilder = new Model.firefoxWebBuilder();
+var firefoxWeb = build.builder(firefoxWebBuilder).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
-notificationExample.setChromeAppExtSettings(
-new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.ChromeAppExt)).collapseKey("collapseKey").delayWhileIdle(true).title("title")
-.iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
+var chromeAppExtBuilder = new Model.chromeAppExtBuilder();
+var chromeAppExt = build.builder(chromeAppExtBuilder).collapseKey("collapseKey").delayWhileIdle(true).title("title")
+.iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 
 
 //For Chrome..
-notificationExample.setChromeSettings(new Model.settings().settingsBuilder(Model.builderFactory(Notification.Builder.ChromeWeb)).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }));
+var chromeWebBuilder = new Model.chromeWebBuilder();
+var chromeWeb = build.builder(chromeWebBuilder).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+
+//Create settingsBuilder object to set all the platform settings.
+var settingsBuilder = new Model.settingsBuilder(); //create settingBuilder object.
+var settings = build.builder(settingsBuilder).chromeWeb(chromeWeb);
+var settings = build.builder(settingsBuilder).apns(apns).gcm(gcm).safariWeb(safariWeb).firefoxWeb(firefoxWeb)
+.chromeAppExt(chromeAppExt).chromeWeb(chromeWeb);       
+notificationExample.settings(settings);
 
 ```
 
