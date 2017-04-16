@@ -23,8 +23,9 @@ npm install bluemix-push-notifications --save
 ```javascript
 var PushNotifications = require('bluemix-push-notifications').PushNotifications;
 var Notification = require('bluemix-push-notifications').Notification;
-
-//Require this model to use different builder each for Apns (ApnsBuilder), Gcm(GcmBuilder), FirefoxWeb (FirefoxWebBuilder), SafariWeb (SafariWebBuilder), ChromeWeb (ChromeWebBuilder), ChromeAppExt (ChromeAppExtBuilder).
+```
+Require PushMessageModel to use different builder each for Apns (ApnsBuilder), Gcm(GcmBuilder), FirefoxWeb (FirefoxWebBuilder), SafariWeb (SafariWebBuilder), ChromeWeb (ChromeWebBuilder), ChromeAppExt (ChromeAppExtBuilder).
+```javascript
 var Model = PushNotifications.PushMessageModel;
 ```
 
@@ -35,49 +36,38 @@ var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUT
 ```
 **Note:** The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. The three options are `PushNotifications.Region.US_SOUTH`, `PushNotifications.Region.UK`, and `PushNotifications.Region.SYDNEY`. If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
 
-Next, create the push notification that you want to broadcast by supplying the alert message you want displayed. 
-
-```javascript
-var notificationExample = new Notification("Testing BluemixPushNotifications");
-```
+Next, create the push notification that you want to broadcast by supplying the alert message you want to be displayed. 
 
 An optional URL may be supplied with the alert.
-
 ```javascript
-notificationExample.setUrl("www.example.com");
+var notificationExample = new Notification();
+var messageBuilder = new Model.messageBuilder();
+var message = build.builder(messageBuilder).alert("alert").url("url");
+notificationExamplea.message(message);
 ```
+
 
 You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
 
 Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extral optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
 
+Create build object which creates builder for each platform (apns, gcm, safari etc)
+
 ```javascript
+var build = new Model.build(); 
+```
 
-//Older approach. All Older API mentioned below are deprecated.
+Next set the target.** Note : You can either set deviceIds or userIds or platforms or tatNames.
 
-// setTarget(deviceIds, userIds, platforms, tagNames), you can either set deviceIds or userIds or Platforms or tatNames
-notificationExample.setTarget(["device1", "device2"], 
-                              ["user1", "user2"], 
-                              [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], 
-                              ["tag1", "tag2"]); 
+Below code snippet uses platforms.
 
-
-// setApnsSettings(badge, category, iosActionKey, sound, type, payload)
-notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"}); 
-
-
-// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
-notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0); 
-
-
- // New approach below :
-var build = new Model.build(); //create build object for creating builders.
-
-// ** Note : You can either set deviceIds or userIds or platforms or tatNames.
+```javascript
 var targetBuider = new Model.targetBuilder();
 var target = build.builder(targetBuider).platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox, Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]);
 notificationExample.target(target);
-
+```
+Next set all the optional settings for platforms (apns, gcm, safari etc)
+```javascript
 // For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
 var apnsBuilder = new Model.apnsBuilder();
 var apns = build.builder(apnsBuilder).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage").titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl");
@@ -90,8 +80,7 @@ var lights = new Model.gcmLights().ledArgb(Notification.GcmLED.BLACK).ledOffMs(1
  
 // Finally gcm settings creation
 var gcmBuilder = new Model.gcmBuilder();
-var gcm = build.builder(gcmBuilder).collapseKey("collapseKey").delayWhileIdle(true).payload({ key: "value" })
-.priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights);
+var gcm = build.builder(gcmBuilder).collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" }).priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights);
 
 // For Safari. All the three settings are mandatory to provide.
 var safariWebBuilder = new Model.safariWebBuilder();
@@ -110,10 +99,12 @@ var chromeAppExt = build.builder(chromeAppExtBuilder).collapseKey("collapseKey")
 //For Chrome..
 var chromeWebBuilder = new Model.chromeWebBuilder();
 var chromeWeb = build.builder(chromeWebBuilder).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+```
 
-//Create settingsBuilder object to set all the platform settings.
+Next, create settingsBuilder object to set all the platform settings.
+
+```javascript
 var settingsBuilder = new Model.settingsBuilder(); //create settingBuilder object.
-var settings = build.builder(settingsBuilder).chromeWeb(chromeWeb);
 var settings = build.builder(settingsBuilder).apns(apns).gcm(gcm).safariWeb(safariWeb).firefoxWeb(firefoxWeb)
 .chromeAppExt(chromeAppExt).chromeWeb(chromeWeb);       
 notificationExample.settings(settings);
