@@ -57,9 +57,9 @@ Create build object which creates builder for each platform (apns, gcm, safari e
 var build = new Model.build(); 
 ```
 
-Next set the target.** Note : You can either set deviceIds or userIds or platforms or tatNames.
+Next set the target.** Note : You can either set deviceIds or userIds or platforms or tagNames.
 
-Below code snippet uses platforms.
+Below code snippet uses platforms, same way you can do it for deviceIds(...) or userIds(...) or tagNames(...).
 
 ```javascript
 var targetBuider = new Model.targetBuilder();
