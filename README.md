@@ -24,9 +24,10 @@ npm install bluemix-push-notifications --save
 var PushNotifications = require('bluemix-push-notifications').PushNotifications;
 var Notification = require('bluemix-push-notifications').Notification;
 ```
-Require PushMessageModel to use different builder each for Apns (ApnsBuilder), Gcm(GcmBuilder), FirefoxWeb (FirefoxWebBuilder), SafariWeb (SafariWebBuilder), ChromeWeb (ChromeWebBuilder), ChromeAppExt (ChromeAppExtBuilder).
+Require PushMessageModel to use builder each for Apns, Gcm, FirefoxWeb, SafariWeb, ChromeWeb, ChromeAppExt.
+
 ```javascript
-var Model = PushNotifications.PushMessageModel;
+var PushMessageModel = PushNotifications.PushMessageModel;
 ```
 
 Initialize PushNotifications with details about your Bluemix Push Notifications service. 
@@ -40,76 +41,67 @@ Next, create the push notification that you want to broadcast by supplying the a
 
 An optional URL may be supplied with the alert.
 ```javascript
-var notificationExample = new Notification();
-var messageBuilder = new Model.messageBuilder();
-var message = build.builder(messageBuilder).alert("alert").url("url");
-notificationExamplea.message(message);
+var message = new PushMessageModel.message().builder().alert("Testing BluemixPushNotifications").url("www.example.com");
+var notificationExample =  new Notification.notification().builder().message(message);
 ```
-
 
 You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
 
-Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extral optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
+Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
 
-Create build object which creates builder for each platform (apns, gcm, safari etc)
-
-```javascript
-var build = new Model.build(); 
-```
-
-Next set the target.** Note : You can either set deviceIds or userIds or platforms or tagNames.
+Set the target.** Note : You can either set deviceIds or userIds or platforms or tagNames.
 
 Below code snippet uses platforms, same way you can do it for deviceIds(...) or userIds(...) or tagNames(...).
 
 ```javascript
-var targetBuider = new Model.targetBuilder();
-var target = build.builder(targetBuider).platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox, Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]);
-notificationExample.target(target);
+
+var target = new PushMessageModel.target().builder().platforms([Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google, Notification.notification.TargetPlatform.WebChrome, Notification.notification.TargetPlatform.WebFirefox, Notification.notification.TargetPlatform.WebSafari, Notification.notification.TargetPlatform.AppExtChrome]);
 ```
-Next set all the optional settings for platforms (apns, gcm, safari etc)
+Next set all the optional settings for platforms (apns, gcm, safari etc) using builders.
 ```javascript
 // For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
-var apnsBuilder = new Model.apnsBuilder();
-var apns = build.builder(apnsBuilder).badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage").titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl");
+var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage").titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl");
 
 // For GCM , for newly added options style and lights , you need to construct there json first if you want to use them.
 
 // If your require lights and style settings you can create style and lights objects as shown below;           
-var style = new Model.gcmStyle().type(Notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
-var lights = new Model.gcmLights().ledArgb(Notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
+var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
+var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
  
 // Finally gcm settings creation
-var gcmBuilder = new Model.gcmBuilder();
-var gcm = build.builder(gcmBuilder).collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" }).priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights);
+var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" }).priority(Notification.notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC).style(style).lights(lights);
 
 // For Safari. All the three settings are mandatory to provide.
-var safariWebBuilder = new Model.safariWebBuilder();
-var safariWeb = build.builder(safariWebBuilder).title("title").urlArgs(["urlArgs1"]).action("action");
+var safariWeb = new PushMessageModel.safariWeb().builder().title("title").urlArgs(["urlArgs1"]).action("action");
 
 // For Firefox..
-var firefoxWebBuilder = new Model.firefoxWebBuilder();
-var firefoxWeb = build.builder(firefoxWebBuilder).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
-var chromeAppExtBuilder = new Model.chromeAppExtBuilder();
-var chromeAppExt = build.builder(chromeAppExtBuilder).collapseKey("collapseKey").delayWhileIdle(true).title("title")
+
+var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey").delayWhileIdle(true).title("title")
 .iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 
 
 //For Chrome..
-var chromeWebBuilder = new Model.chromeWebBuilder();
-var chromeWeb = build.builder(chromeWebBuilder).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+
+var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 ```
 
-Next, create settingsBuilder object to set all the platform settings.
+Next, create settings with all platforms optional settings.
 
 ```javascript
-var settingsBuilder = new Model.settingsBuilder(); //create settingBuilder object.
-var settings = build.builder(settingsBuilder).apns(apns).gcm(gcm).safariWeb(safariWeb).firefoxWeb(firefoxWeb)
+
+var settings = new PushMessageModel.settings().builder().apns(apns).gcm(gcm).safariWeb(safariWeb).firefoxWeb(firefoxWeb)
 .chromeAppExt(chromeAppExt).chromeWeb(chromeWeb);       
-notificationExample.settings(settings);
 
 ```
+Now create final notification using target, settings, and message.
+
+```javascript
+var notificationExample = new Notification.notification().builder().message(message).target(target).settings(settings);
+```
+
 
 Finally, send the Push notification.
 
