@@ -55,51 +55,65 @@ Below code snippet uses platforms, same way you can do it for deviceIds(...) or 
 
 ```javascript
 
-var target = new PushMessageModel.target().builder().platforms([Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google, Notification.notification.TargetPlatform.WebChrome, Notification.notification.TargetPlatform.WebFirefox, Notification.notification.TargetPlatform.WebSafari, Notification.notification.TargetPlatform.AppExtChrome]);
+var target = new PushMessageModel.target().builder().platforms([Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google, Notification.notification.TargetPlatform.WebChrome, 
+Notification.notification.TargetPlatform.WebFirefox, Notification.notification.TargetPlatform.WebSafari,
+Notification.notification.TargetPlatform.AppExtChrome]);
 ```
 Next set all the optional settings for platforms (apns, gcm, safari etc) using builders.
 ```javascript
 // For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
-var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage").titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl");
+var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("interactiveCategory")
+.iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.notification.ApnsType.DEFAULT)
+.payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
+.titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle")
+.title("title").attachmentUrl("attachmentUrl");
 
 // For GCM , for newly added options style and lights , you need to construct there json first if you want to use them.
 
 // If your require lights and style settings you can create style and lights objects as shown below;           
-var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
-var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
+var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes.BIGTEXT_NOTIFICATION)
+.text("text").title("title").url("url").lines(["line1"]);
+var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK)
+.ledOffMs(1).ledOnMs(1);
  
 // Finally gcm settings creation
-var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" }).priority(Notification.notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC).style(style).lights(lights);
+var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").interactiveCategory("interactiveCategory")
+.delayWhileIdle(true).payload({ key: "value" }).priority(Notification.notification.GcmPriority.DEFAULT)
+.sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC)
+.style(style).lights(lights);
 
 // For Safari. All the three settings are mandatory to provide.
 var safariWeb = new PushMessageModel.safariWeb().builder().title("title").urlArgs(["urlArgs1"]).action("action");
 
 // For Firefox..
-var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").iconUrl("iconUrl")
+.timeToLive(1.0).payload({ key: "value" });
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
 
-var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey").delayWhileIdle(true).title("title")
-.iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey").delayWhileIdle(true)
+.title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 
 
 //For Chrome..
 
-var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0)
+.payload({ key: "value" });
 ```
 
 Next, create settings with all platforms optional settings.
 
 ```javascript
 
-var settings = new PushMessageModel.settings().builder().apns(apns).gcm(gcm).safariWeb(safariWeb).firefoxWeb(firefoxWeb)
-.chromeAppExt(chromeAppExt).chromeWeb(chromeWeb);       
+var settings = new PushMessageModel.settings().builder().apns(apns).gcm(gcm).safariWeb(safariWeb)
+.firefoxWeb(firefoxWeb).chromeAppExt(chromeAppExt).chromeWeb(chromeWeb);       
 
 ```
 Now create final notification using target, settings, and message.
 
 ```javascript
-var notificationExample = new Notification.notification().builder().message(message).target(target).settings(settings);
+var notificationExample = new Notification.notification().builder().message(message).
+target(target).settings(settings);
 ```
 
 
