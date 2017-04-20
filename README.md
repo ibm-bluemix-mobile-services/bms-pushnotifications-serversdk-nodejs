@@ -41,7 +41,8 @@ Next, create the push notification that you want to broadcast by supplying the a
 
 An optional URL may be supplied with the alert.
 ```javascript
-var message = new PushMessageModel.message().builder().alert("Testing BluemixPushNotifications").url("www.example.com");
+var message = new PushMessageModel.message().builder().alert("Testing BluemixPushNotifications")
+.url("www.example.com");
 var notificationExample =  new Notification.notification().builder().message(message);
 ```
 
@@ -55,9 +56,10 @@ Below code snippet uses platforms, same way you can do it for deviceIds(...) or 
 
 ```javascript
 
-var target = new PushMessageModel.target().builder().platforms([Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google, Notification.notification.TargetPlatform.WebChrome, 
-Notification.notification.TargetPlatform.WebFirefox, Notification.notification.TargetPlatform.WebSafari,
-Notification.notification.TargetPlatform.AppExtChrome]);
+var target = new PushMessageModel.target().builder().platforms(
+[Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google,
+ Notification.notification.TargetPlatform.WebChrome,Notification.notification.TargetPlatform.WebFirefox,
+ Notification.notification.TargetPlatform.WebSafari,Notification.notification.TargetPlatform.AppExtChrome]);
 ```
 Next set all the optional settings for platforms (apns, gcm, safari etc) using builders.
 ```javascript
@@ -71,19 +73,21 @@ var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("i
 // For GCM , for newly added options style and lights , you need to construct there json first if you want to use them.
 
 // If your require lights and style settings you can create style and lights objects as shown below;           
-var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes.BIGTEXT_NOTIFICATION)
-.text("text").title("title").url("url").lines(["line1"]);
+var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes
+.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
 var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK)
 .ledOffMs(1).ledOnMs(1);
  
 // Finally gcm settings creation
-var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").interactiveCategory("interactiveCategory")
-.delayWhileIdle(true).payload({ key: "value" }).priority(Notification.notification.GcmPriority.DEFAULT)
-.sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC)
+var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").
+interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
+.priority(Notification.notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
+.icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC)
 .style(style).lights(lights);
 
 // For Safari. All the three settings are mandatory to provide.
-var safariWeb = new PushMessageModel.safariWeb().builder().title("title").urlArgs(["urlArgs1"]).action("action");
+var safariWeb = new PushMessageModel.safariWeb().builder().title("title").urlArgs(["urlArgs1"])
+.action("action");
 
 // For Firefox..
 var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").iconUrl("iconUrl")
@@ -91,14 +95,14 @@ var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").icon
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
 
-var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey").delayWhileIdle(true)
-.title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey")
+.delayWhileIdle(true).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
 
 
 //For Chrome..
 
-var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0)
-.payload({ key: "value" });
+var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl")
+.timeToLive(1.0).payload({ key: "value" });
 ```
 
 Next, create settings with all platforms optional settings.
