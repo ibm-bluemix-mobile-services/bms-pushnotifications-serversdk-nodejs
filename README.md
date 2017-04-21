@@ -78,10 +78,9 @@ var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("i
 .title("title").attachmentUrl("attachmentUrl");
 
 /* Options style and lights are new optional settings added to GCM,
- * you need to construct there json first if you want to use them.
+ * If your require lights and style settings you can create style and lights objects as shown below;           
 */
 
-// If your require lights and style settings you can create style and lights objects as shown below;           
 var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes
 .BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
 var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK)
