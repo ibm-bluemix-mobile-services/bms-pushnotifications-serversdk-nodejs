@@ -49,7 +49,7 @@ or
 
 You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
 
-Next, create target.
+Create target.
 
 ** Note : You can either set deviceIds or userIds or platforms or tagNames.
 
