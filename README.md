@@ -49,7 +49,9 @@ or
 
 You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
 
-Create the target.** Note : You can either set deviceIds or userIds or platforms or tagNames.
+Next, create target.
+
+** Note : You can either set deviceIds or userIds or platforms or tagNames.
 
 Below code snippet uses platforms, same way you can do it for deviceIds(...) or userIds(...) or tagNames(...).
 
@@ -61,14 +63,14 @@ var target = new PushMessageModel.target().builder().platforms(
  Notification.notification.TargetPlatform.WebSafari,Notification.notification.TargetPlatform.AppExtChrome]);
 ```
 
-Create the message as shown below.
+Next, create message as shown below.
 ```javascript
 var message = new PushMessageModel.message().builder().alert("Testing BluemixPushNotifications")
 .url("www.example.com");
 ```
 Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
 
-Next set all the optional settings for platforms (apns, gcm, safari etc) using builders.
+Next, set all the optional settings for platforms (apns, gcm, safari etc) using builders.
 ```javascript
 // For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
 var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("interactiveCategory")
