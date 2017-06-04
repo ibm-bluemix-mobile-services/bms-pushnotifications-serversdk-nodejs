@@ -23,13 +23,22 @@ npm install bluemix-push-notifications --save
 ```javascript
 var PushNotifications = require('bluemix-push-notifications').PushNotifications;
 var Notification = require('bluemix-push-notifications').Notification;
+var Target = require('bluemix-push-notifications').Target
+var Settings = require('bluemix-push-notifications').Settings
+var Message = require('bluemix-push-notifications').Mesage
 ```
-Require PushMessageModel to use builder each for Apns, Gcm, FirefoxWeb, SafariWeb, ChromeWeb, ChromeAppExt.
+These modules required only if optional settings required for each one of them.
 
-```javascript
-var PushMessageModel = PushNotifications.PushMessageModel;
+``javascript
+var Apns = require('bluemix-push-notifications').Apns
+var Gcm = require('bluemix-push-notifications').Gcm
+var ChromeAppExt = require('bluemix-push-notifications').ChromeAppExt
+var ChromeWeb = require('bluemix-push-notifications').ChromeWeb
+var FirefoxWeb = require('bluemix-push-notifications').FirefoxWeb
+var SafariWeb = require('bluemix-push-notifications').SafariWeb
+var GcmLights = require('bluemix-push-notifications').GcmLights
+var GcmStyle = require('bluemix-push-notifications').GcmStyle
 ```
-
 Initialize PushNotifications with details about your Bluemix Push Notifications service. 
 
 ```javascript
@@ -41,9 +50,9 @@ Next, create the push notification that you want to broadcast by supplying the a
 
 An optional URL may be supplied with the alert.
 ```javascript
-var message = new PushMessageModel.message().builder().alert("Testing BluemixPushNotifications")
-.url("www.example.com");
-var notificationExample =  new Notification.notification().builder().message(message);
+var message = Message.alert("20% Off for first 100 Bluemix customers")
+.url("www.ibm.com").build();
+var notificationExample =  Notification.message(message).build();
 ```
 or
 
@@ -57,77 +66,77 @@ Below code snippet uses platforms, same way you can do it for deviceIds(...) or 
 
 ```javascript
 
-var target = new PushMessageModel.target().builder().platforms(
-[Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google,
- Notification.notification.TargetPlatform.WebChrome,Notification.notification.TargetPlatform.WebFirefox,
- Notification.notification.TargetPlatform.WebSafari,Notification.notification.TargetPlatform.AppExtChrome]);
+var target = Target.platforms(
+[Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google,
+ Notification.TargetPlatform.WebChrome,Notification.TargetPlatform.WebFirefox,
+ Notification.TargetPlatform.WebSafari,Notification.TargetPlatform.AppExtChrome]).build();
 ```
 
 Next, create message as shown below.
 ```javascript
-var message = new PushMessageModel.message().builder().alert("Testing BluemixPushNotifications")
-.url("www.example.com");
+var message = Message.alert("20% Off for first 100 Bluemix customers")
+.url("www.ibm.com").build();
 ```
-Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and GCM. We use Builders to construct optional settings for each one of them.
+Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and GCM.
 
-Next, set all the optional settings for platforms (apns, gcm, safari etc) using builders.
+Next, set all the optional settings for platforms (apns, gcm, safari etc).
 ```javascript
 // For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
-var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("interactiveCategory")
-.iosActionKey("iosActionKey").sound("sound.mp3").type(Notification.notification.ApnsType.DEFAULT)
-.payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
-.titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle")
-.title("title").attachmentUrl("attachmentUrl");
+var apns = Apns.badge(1).interactiveCategory("First_Button_Group1")
+.iosActionKey("My Localized String").sound("sound.mp3").type(Notification.ApnsType.DEFAULT)
+.payload({ "alert" : "Message received from Bluemix" }).titleLocKey("My Localized String").locKey("My Localized String").launchImage("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.titleLocArgs(["IBM","Bluemix"]).locArgs(["IBM","Bluemix"]).subtitle("Bluemix")
+.title("IBM").attachmentUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg").build();
 
 /* Options style and lights are new optional settings added to GCM,
  * If your require lights and style settings you can create style and lights objects as shown below;           
 */
 
-var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes
-.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
-var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK)
-.ledOffMs(1).ledOnMs(1);
+var style = GcmStyle.type(Notification.GcmStyleTypes
+.BIGTEXT_NOTIFICATION).text("IBM Push").title("Push Notification").url("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg").lines(["IBM", "Bluemix", "Push"]).build();
+var lights = GcmLights.ledArgb(Notification.GcmLED.BLACK)
+.ledOffMs(1).ledOnMs(1).build();
  
 // Finally gcm settings creation
-var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").
-interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
-.priority(Notification.notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
-.icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC)
-.style(style).lights(lights);
+var gcm = Gcm.collapseKey("ping").
+interactiveCategory("First_Button_Group1").delayWhileIdle(true).payload({ "alert" : "Message received from Bluemix" })
+.priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
+.icon("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg").sync(true).visibility(Notification.Visibility.PUBLIC)
+.style(style).lights(lights).build();
 
 // For Safari. All the three settings are mandatory to provide.
-var safariWeb = new PushMessageModel.safariWeb().builder().title("title").urlArgs(["urlArgs1"])
-.action("action");
+var safariWeb = SafariWeb.title("IBM").urlArgs(["www.IBM.com"])
+.action("View").build();
 
 // For Firefox..
-var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").iconUrl("iconUrl")
-.timeToLive(1.0).payload({ key: "value" });
+var firefoxWeb = FirefoxWeb.title("IBM").iconUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.timeToLive(1.0).payload({ "alert" : "Message received from Bluemix" }).build();
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
 
-var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey")
-.delayWhileIdle(true).title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
+var chromeAppExt = ChromeAppExt.collapseKey("ping")
+.delayWhileIdle(true).title("IBM").iconUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg").timeToLive(1.0).payload({ "alert" : "Message received from Bluemix" }).build();
 
 
 //For Chrome..
 
-var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl")
-.timeToLive(1.0).payload({ key: "value" });
+var chromeWeb = ChromeWeb.title("IBM").iconUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.timeToLive(1.0).payload({ "alert" : "Message received from Bluemix" }).build();
 ```
 
 Next, create settings with all platforms optional settings.
 
 ```javascript
 
-var settings = new PushMessageModel.settings().builder().apns(apns).gcm(gcm).safariWeb(safariWeb)
-.firefoxWeb(firefoxWeb).chromeAppExt(chromeAppExt).chromeWeb(chromeWeb);       
+var settings = Settings.apns(apns).gcm(gcm).safariWeb(safariWeb)
+.firefoxWeb(firefoxWeb).chromeAppExt(chromeAppExt).chromeWeb(chromeWeb).build();       
 
 ```
 Now create final notification using target, settings, and message.
 
 ```javascript
-var notificationExample = new Notification.notification().builder().message(message).
-target(target).settings(settings);
+var notificationExample = Notification.message(message).
+target(target).settings(settings).build();
 ```
 
 

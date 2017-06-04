@@ -1,16 +1,26 @@
-var Notification = require('../lib/Notification.js');
-var PushMessageModel = require('../lib/PushMessageModel');
+var Notification = require('../lib/PushNotifications').Notification
+var Apns = require('../lib/PushNotifications').Apns
+var Gcm = require('../lib/PushNotifications').Gcm
+var ChromeAppExt = require('../lib/PushNotifications').ChromeAppExt
+var ChromeWeb = require('../lib/PushNotifications').ChromeWeb
+var FirefoxWeb = require('../lib/PushNotifications').FirefoxWeb
+var SafariWeb = require('../lib/PushNotifications').SafariWeb
+var GcmLights = require('../lib/PushNotifications').GcmLights
+var GcmStyle = require('../lib/PushNotifications').GcmStyle
+var Target = require('../lib/PushNotifications').Target
+var Settings = require('../lib/PushNotifications').Settings
+var Message = require('../lib/PushNotifications').Mesage
+
 var assert = require('chai').assert;
 var _ = require('underscore');
 
 
-describe('Notification', function () {
+ describe('Notification', function () {
 
     describe('message', function () {
         it('should set all json values correctly', function () {
-
-            var message = new PushMessageModel.message().builder().alert("alert").url("url");
-            var notification = new Notification.notification().builder().message(message);
+            var message = Message.alert("alert").url("url").build();
+            var notification = Notification.message(message).build();
 
             assert.equal(notification.json.message.alert, "alert");
             assert.equal(notification.json.message.url, "url");
@@ -21,20 +31,20 @@ describe('Notification', function () {
 
         });
         it('should not set json values when null is input', function () {
-
-            var message = new PushMessageModel.message().builder().alert(null).url(null);
-            var notification = new Notification.notification().builder().message(message);
+            var message = Message.alert(null).url(null).build();
+            var notification = Notification.message(message).build();
             assert.equal(_.isEmpty(notification.message), true);
         });
     });
 
-    describe('target', function () {
+ describe('target', function () {
         it('should set all json values correctly', function () {
 
-            var target = new PushMessageModel.target().builder().deviceIds(["device1", "device2"]).userIds(["user1", "user2"]).
-                platforms([Notification.notification.TargetPlatform.Apple, Notification.notification.TargetPlatform.Google, Notification.notification.TargetPlatform.WebChrome, Notification.notification.TargetPlatform.WebFirefox
-                    , Notification.notification.TargetPlatform.WebSafari, Notification.notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]);
-            var notification = new Notification.notification().builder().target(target);
+            var target = Target.deviceIds(["device1", "device2"]).userIds(["user1", "user2"]).
+                platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
+                    , Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]).build();
+            
+            var notification = Notification.target(target).build();
 
             assert.equal(_.difference(notification.json.target.deviceIds, ["device1", "device2"]).length, 0);
             assert.equal(_.difference(notification.json.target.userIds, ["user1", "user2"]).length, 0);
@@ -49,9 +59,9 @@ describe('Notification', function () {
         });
         it('should not set json values when null is input', function () {
 
-            var target = new PushMessageModel.target().builder().deviceIds(null).userIds(null).
-                platforms(null).tagNames(null);
-            var notification = new Notification.notification().builder().target(target);
+            var target = Target.deviceIds(null).userIds(null).
+                platforms(null).tagNames(null).build();
+            var notification = Notification.target(target).build();
 
             assert.equal(_.isEmpty(notification.target), true);
         });
@@ -60,12 +70,12 @@ describe('Notification', function () {
     describe('setApnsSettings', function () {
         it('should set all json values correctly', function () {
 
-            var apns = new PushMessageModel.apns().builder().badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
-                type(Notification.notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
-                .titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl");
+            var apns = Apns.badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
+                type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
+                .titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl").build();
 
-            var settings = new PushMessageModel.settings().builder().apns(apns);
-            var notification = new Notification.notification().builder().settings(settings);
+            var settings = Settings.apns(apns).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.apns.badge, 1);
             assert.equal(notification.json.settings.apns.interactiveCategory, "interactiveCategory");
@@ -87,11 +97,11 @@ describe('Notification', function () {
         });
         it('should not set json values when null is input', function () {
             
-            var apns = new PushMessageModel.apns().builder().badge(null).interactiveCategory(null).iosActionKey(null).sound(null).
+            var apns = Apns.badge(null).interactiveCategory(null).iosActionKey(null).sound(null).
                 type(null).payload(null).titleLocKey(null).locKey(null).launchImage(null)
-                .titleLocArgs(null).locArgs(null).subtitle(null).title(null).attachmentUrl(null);
-            var settings = new PushMessageModel.settings().builder().apns(apns);
-            var notification = new Notification.notification().builder().settings(settings);
+                .titleLocArgs(null).locArgs(null).subtitle(null).title(null).attachmentUrl(null).build();
+            var settings = Settings.apns(apns).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(_.isEmpty(notification.settings), true);
         });
@@ -101,14 +111,14 @@ describe('Notification', function () {
     describe('setGcmSettings', function () {
         it('should set all json values correctly', function () {
 
-            var style = new PushMessageModel.gcmStyle().builder().type(Notification.notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]);
-            var lights = new PushMessageModel.gcmLights().builder().ledArgb(Notification.notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1);
+            var style = GcmStyle.type(Notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]).build();
+            var lights = GcmLights.ledArgb(Notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1).build();
 
-            var gcm = new PushMessageModel.gcm().builder().collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
-                .priority(Notification.notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.notification.Visibility.PUBLIC).style(style).lights(lights);
+            var gcm = Gcm.collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
+                .priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights).build();
 
-            var settings = new PushMessageModel.settings().builder().gcm(gcm);
-            var notification = new Notification.notification().builder().settings(settings);
+            var settings = Settings.gcm(gcm).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.gcm.collapseKey, "collapseKey");
             assert.equal(notification.json.settings.gcm.interactiveCategory, "interactiveCategory");
@@ -122,9 +132,9 @@ describe('Notification', function () {
             assert.equal(notification.json.settings.gcm.visibility, "PUBLIC");
             assert.equal(_.keys(notification.json.settings.gcm.style)[0], "type");
             assert.equal(_.values(notification.json.settings.gcm.style)[0], "BIGTEXT_NOTIFICATION");
-            assert.equal(_.values(notification.json.settings.gcm.style)[1], "url");
+            assert.equal(_.values(notification.json.settings.gcm.style)[1], "text");
             assert.equal(_.values(notification.json.settings.gcm.style)[2], "title");
-            assert.equal(_.values(notification.json.settings.gcm.style)[3], "text");
+            assert.equal(_.values(notification.json.settings.gcm.style)[3], "url");
             assert.equal(_.difference(notification.json.settings.gcm.style[4], ["linw1"]).length, 0);
 
 
@@ -134,10 +144,10 @@ describe('Notification', function () {
             assert.equal(_.values(notification.json.settings.gcm.lights)[2], "1");
         })
         it('should not set json values when null is input', function () {
-            var gcm = new PushMessageModel.gcm().builder().collapseKey(null).interactiveCategory(null).delayWhileIdle(null).payload(null)
-                .priority(null).sound(null).timeToLive(1.0).icon(null).sync(null).visibility(null).style(null).lights(null);
-            var settings = new PushMessageModel.settings().builder().gcm(gcm);
-            var notification = new Notification.notification().builder().settings(settings);
+            var gcm = Gcm.collapseKey(null).interactiveCategory(null).delayWhileIdle(null).payload(null)
+                .priority(null).sound(null).timeToLive(1.0).icon(null).sync(null).visibility(null).style(null).lights(null).build();
+            var settings = Settings.gcm(gcm).build();
+            var notification = Notification.settings(settings).build();
             assert.equal(_.isEmpty(notification.settings), true);
         });
     });
@@ -146,9 +156,9 @@ describe('Notification', function () {
     describe('setSafariWebSettings', function () {
         it('should set all json values correctly', function () {
 
-            var safariWeb = new PushMessageModel.safariWeb().builder().title("title").urlArgs(["urlArgs1", "urlArgs2"]).action("action");
-            var settings = new PushMessageModel.settings().builder().safariWeb(safariWeb);
-            var notification = new Notification.notification().builder().settings(settings);
+            var safariWeb = SafariWeb.title("title").urlArgs(["urlArgs1", "urlArgs2"]).action("action").build();
+            var settings = Settings.safariWeb(safariWeb).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.safariWeb.title, "title");
             assert.equal(_.difference(notification.json.settings.safariWeb.urlArgs, ["urlArgs1", "urlArgs2"]).length, 0);
@@ -156,9 +166,9 @@ describe('Notification', function () {
 
         });
         it('should not set json values when null is input', function () {
-            var safariWeb = new PushMessageModel.safariWeb().builder().title(null).urlArgs(null).action(null);
-            var settings = new PushMessageModel.settings().builder().safariWeb(safariWeb);
-            var notification = new Notification.notification().builder().settings(settings);
+            var safariWeb = SafariWeb.title(null).urlArgs(null).action(null).build();
+            var settings = Settings.safariWeb(safariWeb).build();
+            var notification = Notification.settings(settings).build();
             assert.equal(_.isEmpty(notification.settings), true);
         });
     });
@@ -166,9 +176,9 @@ describe('Notification', function () {
     describe('setFirefoxWebSettings', function () {
         it('should set all json values correctly', function () {
 
-            var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
-            var settings = new PushMessageModel.settings().builder().firefoxWeb(firefoxWeb);
-            var notification = new Notification.notification().builder().settings(settings);
+            var firefoxWeb = FirefoxWeb.title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }).build();
+            var settings = Settings.firefoxWeb(firefoxWeb).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.firefoxWeb.title, "title");
             assert.equal(notification.json.settings.firefoxWeb.iconUrl, "iconUrl");
@@ -177,9 +187,9 @@ describe('Notification', function () {
 
         });
         it('should not set json values when null is input', function () {
-            var firefoxWeb = new PushMessageModel.firefoxWeb().builder().title(null).iconUrl(null).timeToLive(1.0).payload(null);
-            var settings = new PushMessageModel.settings().builder().firefoxWeb(firefoxWeb);
-            var notification = new Notification.notification().builder().settings(settings);
+            var firefoxWeb = FirefoxWeb.title(null).iconUrl(null).timeToLive(1.0).payload(null).build();
+            var settings = Settings.firefoxWeb(firefoxWeb).build();
+            var notification = Notification.settings(settings).build();
             assert.equal(_.isEmpty(notification.settings), true);
         });
     });
@@ -187,10 +197,10 @@ describe('Notification', function () {
     describe('setChromeAppExtSettings', function () {
         it('should set all json values correctly', function () {
 
-            var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey("collapseKey").delayWhileIdle(true).title("title")
-                .iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
-            var settings = new PushMessageModel.settings().builder().chromeAppExt(chromeAppExt);
-            var notification = new Notification.notification().builder().settings(settings);
+            var chromeAppExt = ChromeAppExt.collapseKey("collapseKey").delayWhileIdle(true).title("title")
+                .iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }).build();
+            var settings = Settings.chromeAppExt(chromeAppExt).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.chromeAppExt.collapseKey, "collapseKey");
             assert.equal(notification.json.settings.chromeAppExt.delayWhileIdle, true);
@@ -201,10 +211,10 @@ describe('Notification', function () {
 
         });
         it('should not set json values when null is input', function () {
-            var chromeAppExt = new PushMessageModel.chromeAppExt().builder().collapseKey(null).delayWhileIdle(true).title(null)
-                .iconUrl(null).timeToLive(1.0).payload(null);
-            var settings = new PushMessageModel.settings().builder().chromeAppExt(chromeAppExt);
-            var notification = new Notification.notification().builder().settings(settings);
+            var chromeAppExt = ChromeAppExt.collapseKey(null).delayWhileIdle(true).title(null)
+                .iconUrl(null).timeToLive(1.0).payload(null).build();
+            var settings = Settings.chromeAppExt(chromeAppExt).build();
+            var notification = Notification.settings(settings).build();
             assert.equal(_.isEmpty(notification.settings), true);
         });
     });
@@ -213,9 +223,9 @@ describe('Notification', function () {
     describe('setChromeSettings', function () {
         it('should set all json values correctly', function () {
 
-            var chromeWeb = new PushMessageModel.chromeWeb().builder().title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" });
-            var settings = new PushMessageModel.settings().builder().chromeWeb(chromeWeb);
-            var notification = new Notification.notification().builder().settings(settings);
+            var chromeWeb = ChromeWeb.title("title").iconUrl("iconUrl").timeToLive(1.0).payload({ key: "value" }).build();
+            var settings = Settings.chromeWeb(chromeWeb).build();
+            var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.chromeWeb.title, "title");
             assert.equal(notification.json.settings.chromeWeb.iconUrl, "iconUrl");
@@ -224,9 +234,9 @@ describe('Notification', function () {
 
         });
         it('should not set json values when null is input', function () {
-            var chromeWeb = new PushMessageModel.chromeWeb().builder().title(null).iconUrl(null).timeToLive(1.0).payload(null);
-            var settings = new PushMessageModel.settings().builder().chromeWeb(chromeWeb);
-            var notification = new Notification.notification().builder().settings(settings);
+            var chromeWeb = ChromeWeb.title(null).iconUrl(null).timeToLive(1.0).payload(null).build();
+            var settings = Settings.chromeWeb(chromeWeb).build();
+            var notification = Notification.settings(settings).build();
             assert.equal(_.isEmpty(notification.settings), true);
         });
     });
