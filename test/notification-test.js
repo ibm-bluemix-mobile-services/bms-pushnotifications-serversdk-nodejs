@@ -1,15 +1,15 @@
-var Notification = require('../lib/PushNotifications').Notification
-var Apns = require('../lib/PushNotifications').Apns
-var Gcm = require('../lib/PushNotifications').Gcm
-var ChromeAppExt = require('../lib/PushNotifications').ChromeAppExt
-var ChromeWeb = require('../lib/PushNotifications').ChromeWeb
-var FirefoxWeb = require('../lib/PushNotifications').FirefoxWeb
-var SafariWeb = require('../lib/PushNotifications').SafariWeb
-var GcmLights = require('../lib/PushNotifications').GcmLights
-var GcmStyle = require('../lib/PushNotifications').GcmStyle
-var Target = require('../lib/PushNotifications').Target
-var Settings = require('../lib/PushNotifications').Settings
-var Message = require('../lib/PushNotifications').Mesage
+var Notification = require('../lib/PushNotifications').Notification;
+var Apns = require('../lib/PushNotifications').Apns;
+var Gcm = require('../lib/PushNotifications').Gcm;
+var ChromeAppExt = require('../lib/PushNotifications').ChromeAppExt;
+var ChromeWeb = require('../lib/PushNotifications').ChromeWeb;
+var FirefoxWeb = require('../lib/PushNotifications').FirefoxWeb;
+var SafariWeb = require('../lib/PushNotifications').SafariWeb;
+var GcmLights = require('../lib/PushNotifications').GcmLights;
+var GcmStyle = require('../lib/PushNotifications').GcmStyle;
+var Target = require('../lib/PushNotifications').Target;
+var Settings = require('../lib/PushNotifications').Settings;
+var Message = require('../lib/PushNotifications').Mesage;
 
 var assert = require('chai').assert;
 var _ = require('underscore');
@@ -142,7 +142,7 @@ var _ = require('underscore');
             assert.equal(_.values(notification.json.settings.gcm.lights)[0], "BLACK");
             assert.equal(_.values(notification.json.settings.gcm.lights)[1], "1");
             assert.equal(_.values(notification.json.settings.gcm.lights)[2], "1");
-        })
+        });
         it('should not set json values when null is input', function () {
             var gcm = Gcm.collapseKey(null).interactiveCategory(null).delayWhileIdle(null).payload(null)
                 .priority(null).sound(null).timeToLive(1.0).icon(null).sync(null).visibility(null).style(null).lights(null).build();
