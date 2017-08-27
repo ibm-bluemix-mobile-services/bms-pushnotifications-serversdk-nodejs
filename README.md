@@ -67,7 +67,7 @@ Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and
 
 Next, set all the optional settings for platforms (apns, gcm, safari etc).
 ```javascript
-// For Apns Settings. **Also category is deprecated, we will be using interactiveCategory instead.
+// For Apns Settings.
 var apns = PushMessageBuilder.Apns.badge(1).interactiveCategory("First_Button_Group1")
 .iosActionKey("My Localized String").sound("sound.mp3").type(Notification.ApnsType.DEFAULT)
 .payload({ "alert" : "Message received from Bluemix" }).titleLocKey("My Localized String")
