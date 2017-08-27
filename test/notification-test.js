@@ -31,8 +31,8 @@ var _ = require('underscore');
         it('should set all json values correctly', function () {
 
             var target = PushMessageBuilder.Target.deviceIds(["device1", "device2"]).userIds(["user1", "user2"]).
-                platforms([Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google, Notification.TargetPlatform.WebChrome, Notification.TargetPlatform.WebFirefox
-                    , Notification.TargetPlatform.WebSafari, Notification.TargetPlatform.AppExtChrome]).tagNames(["tag1", "tag2"]).build();
+                platforms([Notification.Platform.Apple, Notification.Platform.Google, Notification.Platform.WebChrome, Notification.Platform.WebFirefox
+                    , Notification.Platform.WebSafari, Notification.Platform.AppExtChrome]).tagNames(["tag1", "tag2"]).build();
             
             var notification = Notification.target(target).build();
 

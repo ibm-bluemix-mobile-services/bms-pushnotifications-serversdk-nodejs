@@ -53,9 +53,9 @@ Below code snippet uses platforms, same way you can do it for deviceIds(...) or 
 ```javascript
 
 var target = PushMessageBuilder.Target.platforms(
-[Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google,
- Notification.TargetPlatform.WebChrome,Notification.TargetPlatform.WebFirefox,
- Notification.TargetPlatform.WebSafari,Notification.TargetPlatform.AppExtChrome]).build();
+[Notification.Platform.Apple, Notification.Platform.Google,
+ Notification.Platform.WebChrome,Notification.Platform.WebFirefox,
+ Notification.Platform.WebSafari,Notification.Platform.AppExtChrome]).build();
 ```
 
 Next, create message as shown below.
@@ -72,10 +72,10 @@ var apns = PushMessageBuilder.Apns.badge(1).interactiveCategory("First_Button_Gr
 .iosActionKey("My Localized String").sound("sound.mp3").type(Notification.ApnsType.DEFAULT)
 .payload({ "alert" : "Message received from Bluemix" }).titleLocKey("My Localized String")
 .locKey("My Localized String")
-.launchImage("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.launchImage("https://bluemix.net/icon.png")
 .titleLocArgs(["IBM","Bluemix"]).locArgs(["IBM","Bluemix"]).subtitle("Bluemix")
 .title("IBM")
-.attachmentUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.attachmentUrl("https://bluemix.net/icon.png")
 .build();
 
 /* Options style and lights are new optional settings added to GCM,
@@ -83,18 +83,19 @@ var apns = PushMessageBuilder.Apns.badge(1).interactiveCategory("First_Button_Gr
 */
 
 var style = PushMessageBuilder.GcmStyle.type(Notification.GcmStyleTypes
-.BIGTEXT_NOTIFICATION).text("IBM Push").title("Push Notification").url("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.BIGTEXT_NOTIFICATION).text("IBM Push").title("Push Notification").url("https://bluemix.net/icon.png")
 .lines(["IBM", "Bluemix", "Push"]).build();
 
 var lights = PushMessageBuilder.GcmLights.ledArgb(Notification.GcmLED.BLACK)
 .ledOffMs(1).ledOnMs(1).build();
  
-// Finally gcm settings creation
+// Finally gcm settings creation. Also timetolive setting is provided which specifies how long (in seconds)
+// the message should be kept in GCM storage if the device is offline.
 var gcm = PushMessageBuilder.Gcm.collapseKey("ping").
 interactiveCategory("First_Button_Group1").delayWhileIdle(true)
 .payload({ "alert" : "Message received from Bluemix" })
 .priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
-.icon("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.icon("https://bluemix.net/icon.png")
 .sync(true).visibility(Notification.Visibility.PUBLIC)
 .style(style).lights(lights).build();
 
@@ -104,21 +105,21 @@ var safariWeb = PushMessageBuilder.SafariWeb.title("IBM").urlArgs(["www.IBM.com"
 
 // For Firefox..
 var firefoxWeb = PushMessageBuilder.FirefoxWeb.title("IBM")
-.iconUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.iconUrl("https://bluemix.net/icon.png")
 .timeToLive(1.0).payload({ "alert" : "Message received from Bluemix" }).build();
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
 
 var chromeAppExt = PushMessageBuilder.ChromeAppExt.collapseKey("ping")
 .delayWhileIdle(true).title("IBM")
-.iconUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg").timeToLive(1.0)
+.iconUrl("https://bluemix.net/icon.png").timeToLive(1.0)
 .payload({ "alert" : "Message received from Bluemix" }).build();
 
 
 //For Chrome..
 
 var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
-.iconUrl("https://s-media-cache-ak0.pinimg.com/236x/da/4f/46/da4f46512233232861d3cada1978c230.jpg")
+.iconUrl("https://bluemix.net/icon.png")
 .timeToLive(1.0).payload({ "alert" : "Message received from Bluemix" }).build();
 ```
 
