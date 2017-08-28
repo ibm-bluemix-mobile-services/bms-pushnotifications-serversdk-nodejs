@@ -30,7 +30,13 @@ Initialize PushNotifications with details about your Bluemix Push Notifications 
 ```javascript
 var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
 ```
-**Note:** The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. The three options are `PushNotifications.Region.US_SOUTH`, `PushNotifications.Region.UK`, and `PushNotifications.Region.SYDNEY`. If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
+**Note:** The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. The three options are `PushNotifications.Region.US_SOUTH`, `PushNotifications.Region.UK`,  `PushNotifications.Region.SYDNEY` and `PushNotifications.Region.FRANKFURT`. If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
+
+**Note:** If you are using dedicated service, use overrideServerHost and add bluemixRegion (bluemix region) value.
+```javascript
+PushNotifications.overrideServerHost = "YOUR_SERVICE_HOST" + PushNotifications.Region.US_SOUTH; (For example: "https://imfpush" + PushNotifications.Region.US_SOUTH)
+var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
+```
 
 Next, create the push notification that you want to broadcast by supplying the alert message you want to be displayed. 
 
