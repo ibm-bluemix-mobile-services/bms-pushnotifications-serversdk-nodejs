@@ -34,7 +34,7 @@ var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUT
 
 **Note:** If you are using dedicated service, use overrideServerHost and add bluemixRegion (bluemix region) value.
 ```javascript
-PushNotifications.overrideServerHost = "YOUR_SERVICE_HOST" + PushNotifications.Region.US_SOUTH; (For example: "https://imfpush" + PushNotifications.Region.US_SOUTH)
+PushNotifications.overrideServerHost = "YOUR_SERVICE_HOST";
 var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
 ```
 
