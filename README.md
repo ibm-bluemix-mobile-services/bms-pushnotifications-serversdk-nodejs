@@ -32,7 +32,7 @@ var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUT
 ```
 **Note:** The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. The four options are `PushNotifications.Region.US_SOUTH`, `PushNotifications.Region.UK`,  `PushNotifications.Region.SYDNEY` and `PushNotifications.Region.FRANKFURT`. If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
 
-**Note:** If you are using dedicated service, use overrideServerHost and add bluemixRegion (bluemix region) value.
+**Note:** If you are using dedicated service, use overrideServerHost and add any of the bluemixRegion (bluemix region) value.
 ```javascript
 PushNotifications.overrideServerHost = "YOUR_SERVICE_HOST";
 var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
