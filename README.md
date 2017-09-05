@@ -59,9 +59,9 @@ Below code snippet uses platforms, same way you can do it for deviceIds(...) or 
 ```javascript
 
 var target = PushMessageBuilder.Target.platforms(
-[Notification.Platform.Apple, Notification.Platform.Google,
- Notification.Platform.WebChrome,Notification.Platform.WebFirefox,
- Notification.Platform.WebSafari,Notification.Platform.AppExtChrome]).build();
+    [Notification.Platform.Apple, Notification.Platform.Google,
+    Notification.Platform.WebChrome,Notification.Platform.WebFirefox,
+    Notification.Platform.WebSafari,Notification.Platform.AppExtChrome]).build();
 ```
 
 Next, create message as shown below.
@@ -75,58 +75,58 @@ Next, set all the optional settings for platforms (apns, gcm, safari etc).
 ```javascript
 // For Apns Settings.
 var apns = PushMessageBuilder.Apns.badge(1).interactiveCategory("Accept")
-.iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.ApnsType.DEFAULT)
-.payload({ "alert" : "20% Off for you" }).titleLocKey("OFFER")
-.locKey("REPLYTO")
-.launchImage("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
-.titleLocArgs(["Jenna","Frank"]).locArgs(["Jenna","Frank"]).subtitle("Bluemix")
-.title("IBM")
-.attachmentUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
-.build();
+    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.ApnsType.DEFAULT)
+    .payload({ "alert" : "20% Off for you" }).titleLocKey("OFFER")
+    .locKey("REPLYTO")
+    .launchImage("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+    .titleLocArgs(["Jenna","Frank"]).locArgs(["Jenna","Frank"]).subtitle("Bluemix")
+    .title("IBM")
+    .attachmentUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+    .build();
 
 /* Options style and lights are new optional settings added to GCM,
  * If your require lights and style settings you can create style and lights objects as shown below;           
 */
 
 var style = PushMessageBuilder.GcmStyle.type(Notification.GcmStyleTypes
-.BIGTEXT_NOTIFICATION).text("IBM Push").title("Big Text Notification").url("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
-.lines(["IBM", "Bluemix", "Big Text Notification"]).build();
+    .BIGTEXT_NOTIFICATION).text("IBM Push").title("Big Text Notification").url("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+    .lines(["IBM", "Bluemix", "Big Text Notification"]).build();
 
 var lights = PushMessageBuilder.GcmLights.ledArgb(Notification.GcmLED.BLACK)
-.ledOffMs(1).ledOnMs(1).build();
+    .ledOffMs(1).ledOnMs(1).build();
  
 // Finally gcm settings creation. Also timetolive setting is provided which specifies how long (in seconds)
 // the message should be kept in GCM storage if the device is offline.
-var gcm = PushMessageBuilder.Gcm.collapseKey("ping").
-interactiveCategory("Accept").delayWhileIdle(true)
-.payload({ "alert" : "20% Off for you" })
-.priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
-.icon("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
-.sync(true).visibility(Notification.Visibility.PUBLIC)
-.style(style).lights(lights).build();
+var gcm = PushMessageBuilder.Gcm.collapseKey("ping")
+    .interactiveCategory("Accept").delayWhileIdle(true)
+    .payload({ "alert" : "20% Off for you" })
+    .priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
+    .icon("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+    .sync(true).visibility(Notification.Visibility.PUBLIC)
+    .style(style).lights(lights).build();
 
 // For Safari. All the three settings are mandatory to provide.
 var safariWeb = PushMessageBuilder.SafariWeb.title("IBM").urlArgs(["www.IBM.com"])
-.action("View").build();
+    .action("View").build();
 
 // For Firefox..
 var firefoxWeb = PushMessageBuilder.FirefoxWeb.title("IBM")
-.iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
-.timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
+    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
 
 //For ChromeAppExtension. You need to provide proper iconUrl or else chromeApp would not work.
 
 var chromeAppExt = PushMessageBuilder.ChromeAppExt.collapseKey("ping")
-.delayWhileIdle(true).title("IBM")
-.iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg").timeToLive(1.0)
-.payload({ "alert" : "20% Off for you" }).build();
+    .delayWhileIdle(true).title("IBM")
+    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg").timeToLive(1.0)
+    .payload({ "alert" : "20% Off for you" }).build();
 
 
 //For Chrome..
 
 var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
-.iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
-.timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
+    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
 ```
 
 Next, create settings with all platforms optional settings.
@@ -134,14 +134,14 @@ Next, create settings with all platforms optional settings.
 ```javascript
 
 var settings = PushMessageBuilder.Settings.apns(apns).gcm(gcm).safariWeb(safariWeb)
-.firefoxWeb(firefoxWeb).chromeAppExt(chromeAppExt).chromeWeb(chromeWeb).build();       
+    .firefoxWeb(firefoxWeb).chromeAppExt(chromeAppExt).chromeWeb(chromeWeb).build();       
 
 ```
 Now create final notification using target, settings, and message.
 
 ```javascript
-var notificationExample = Notification.message(message).
-target(target).settings(settings).build();
+var notificationExample = Notification.message(message)
+    .target(target).settings(settings).build();
 ```
 
 
