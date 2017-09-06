@@ -22,6 +22,7 @@ npm install bluemix-push-notifications --save
 Ensure that the following prerequisites are in place.
 
 	```javascript
+	
 	var PushNotifications = require('bluemix-push-notifications').PushNotifications;
 	var Notification = require('bluemix-push-notifications').Notification;
 	var PushMessageBuilder = require('bluemix-push-notifications').PushMessageBuilder;
@@ -83,6 +84,7 @@ Ensure that the following prerequisites are in place.
 5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
 	
 		```javascript
+
 		//For APNs settings
 		var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("Accept")
 		    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.APNsType.DEFAULT)
