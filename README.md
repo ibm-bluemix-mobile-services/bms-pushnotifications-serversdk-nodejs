@@ -78,9 +78,9 @@ npm install bluemix-push-notifications --save
 	.url("www.ibm.com").build();
 	```
 	
--  `Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and FCM.`
+4. Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and FCM.
 
-4. Create the message as listed:
+5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
 	
 		```javascript
 		//For APNs settings
