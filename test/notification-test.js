@@ -60,8 +60,8 @@ var _ = require("underscore");
     describe("setApnsSettings", function () {
         it("should set all json values correctly", function () {
 
-            var apns = PushMessageBuilder.Apns.badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
-                type(Notification.ApnsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
+            var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("interactiveCategory").iosActionKey("iosActionKey").sound("sound.mp3").
+                type(Notification.APNsType.DEFAULT).payload({ key: "value" }).titleLocKey("titleLocKey").locKey("locKey").launchImage("launchImage")
                 .titleLocArgs(["titleLocArgs1", "titleLocArgs2"]).locArgs(["locArgs1", "locArgs2"]).subtitle("subtitle").title("title").attachmentUrl("attachmentUrl").build();
 
             var settings = PushMessageBuilder.Settings.apns(apns).build();
@@ -87,7 +87,7 @@ var _ = require("underscore");
         });
         it("should not set json values when null is input", function () {
             
-            var apns = PushMessageBuilder.Apns.badge(null).interactiveCategory(null).iosActionKey(null).sound(null).
+            var apns = PushMessageBuilder.APNs.badge(null).interactiveCategory(null).iosActionKey(null).sound(null).
                 type(null).payload(null).titleLocKey(null).locKey(null).launchImage(null)
                 .titleLocArgs(null).locArgs(null).subtitle(null).title(null).attachmentUrl(null).build();
             var settings = PushMessageBuilder.Settings.apns(apns).build();
@@ -98,16 +98,16 @@ var _ = require("underscore");
     });
 
 
-    describe("setGcmSettings", function () {
+    describe("setFCMSettings", function () {
         it("should set all json values correctly", function () {
 
-            var style = PushMessageBuilder.GcmStyle.type(Notification.GcmStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]).build();
-            var lights = PushMessageBuilder.GcmLights.ledArgb(Notification.GcmLED.BLACK).ledOffMs(1).ledOnMs(1).build();
+            var style = PushMessageBuilder.FCMStyle.type(Notification.FCMStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]).build();
+            var lights = PushMessageBuilder.FCMLights.ledArgb(Notification.FCMLED.BLACK).ledOffMs(1).ledOnMs(1).build();
 
-            var gcm = PushMessageBuilder.Gcm.collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
-                .priority(Notification.GcmPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights).build();
+            var fcm = PushMessageBuilder.FCM.collapseKey("collapseKey").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
+                .priority(Notification.FCMPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights).build();
 
-            var settings = PushMessageBuilder.Settings.gcm(gcm).build();
+            var settings = PushMessageBuilder.Settings.fcm(fcm).build();
             var notification = Notification.settings(settings).build();
 
             assert.equal(notification.json.settings.gcm.collapseKey, "collapseKey");
@@ -134,9 +134,9 @@ var _ = require("underscore");
             assert.equal(_.values(notification.json.settings.gcm.lights)[2], "1");
         });
         it("should not set json values when null is input", function () {
-            var gcm = PushMessageBuilder.Gcm.collapseKey(null).interactiveCategory(null).delayWhileIdle(null).payload(null)
+            var fcm = PushMessageBuilder.FCM.collapseKey(null).interactiveCategory(null).delayWhileIdle(null).payload(null)
                 .priority(null).sound(null).timeToLive(1.0).icon(null).sync(null).visibility(null).style(null).lights(null).build();
-            var settings = PushMessageBuilder.Settings.gcm(gcm).build();
+            var settings = PushMessageBuilder.Settings.fcm(fcm).build();
             var notification = Notification.settings(settings).build();
             assert.equal(_.isEmpty(notification.settings), true);
         });
