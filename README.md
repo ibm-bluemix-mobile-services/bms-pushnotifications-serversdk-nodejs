@@ -72,7 +72,7 @@ npm install bluemix-push-notifications --save
 	    	Notification.Platform.WebSafari,Notification.Platform.AppExtChrome]).build();
 	```
 
-4. Create the message as listed:
+5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
 	```javascript
 	var message = PushMessageBuilder.Message.alert("20% Off Offer for you")
 	.url("www.ibm.com").build();
@@ -80,7 +80,7 @@ npm install bluemix-push-notifications --save
 	
 	Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and FCM.
 
-5. Set all the optional settings for platforms.
+5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
 		```javascript
 		//For APNs settings
 		var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("Accept")
