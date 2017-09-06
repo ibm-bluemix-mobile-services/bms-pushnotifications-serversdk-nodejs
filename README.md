@@ -80,9 +80,9 @@ npm install bluemix-push-notifications --save
 	
 	Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and FCM.
 
-5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
-	
+5. Set all the optional settings for platforms.
 		```javascript
+		//For APNs settings
 		var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("Accept")
 		    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.APNsType.DEFAULT)
 		    .payload({ "alert" : "20% Off for you" }).titleLocKey("OFFER")
