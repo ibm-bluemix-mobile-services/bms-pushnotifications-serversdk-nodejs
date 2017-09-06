@@ -82,7 +82,7 @@ npm install bluemix-push-notifications --save
 
 5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
 	
-		```javascript
+	```javascript
 		//For APNs settings
 		var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("Accept")
 		    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.APNsType.DEFAULT)
@@ -135,7 +135,7 @@ npm install bluemix-push-notifications --save
 		var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
 		    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
 		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
-		```
+	```
 
 6. Create settings with all platforms optional settings.
 
