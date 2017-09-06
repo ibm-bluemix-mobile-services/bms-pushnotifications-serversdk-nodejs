@@ -83,10 +83,6 @@ npm install bluemix-push-notifications --save
 5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
 	
 		```javascript
-
-		var
-		```
-
 		//For APNs settings
 		var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("Accept")
 		    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.APNsType.DEFAULT)
