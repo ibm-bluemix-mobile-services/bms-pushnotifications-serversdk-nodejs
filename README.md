@@ -19,7 +19,7 @@ npm install bluemix-push-notifications --save
 
 ## Prerequisite
 
-#Ensure that the following prerequisites are in place:
+1. Ensure that the following prerequisites are in place:
 
 	```javascript
 	var PushNotifications = require('bluemix-push-notifications').PushNotifications;
