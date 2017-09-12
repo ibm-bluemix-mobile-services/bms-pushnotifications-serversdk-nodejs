@@ -110,7 +110,7 @@ npm install bluemix-push-notifications --save
 		    .interactiveCategory("Accept").delayWhileIdle(true)
 		    .payload({ "alert" : "20% Off for you" })
 		    .priority(Notification.FCMPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
-		    .icon("https://t4.ftcdn.net/jpg/01/70/11/61/240_F_170116190_XJGLs1PrMm7FYP1R4wm0JgWLgv6ftaGH.jpg")
+		    .icon("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .sync(true).visibility(Notification.Visibility.PUBLIC)
 		    .style(style).lights(lights).build();
 		
@@ -121,7 +121,7 @@ npm install bluemix-push-notifications --save
 		
 		//For Firefox
 		var firefoxWeb = PushMessageBuilder.FirefoxWeb.title("IBM")
-		    .iconUrl("https://t4.ftcdn.net/jpg/01/70/11/61/240_F_170116190_XJGLs1PrMm7FYP1R4wm0JgWLgv6ftaGH.jpg")
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
 		
 		//For ChromeAppExtension. 
@@ -133,7 +133,7 @@ npm install bluemix-push-notifications --save
 		
 		//For Chrome
 		var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
-		    .iconUrl("https://t4.ftcdn.net/jpg/01/70/11/61/240_F_170116190_XJGLs1PrMm7FYP1R4wm0JgWLgv6ftaGH.jpg")
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
 	```
 
