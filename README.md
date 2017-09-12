@@ -88,17 +88,17 @@ npm install bluemix-push-notifications --save
 		    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.APNsType.DEFAULT)
 		    .payload({ "alert" : "20% Off for you" }).titleLocKey("OFFER")
 		    .locKey("REPLYTO")
-		    .launchImage("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+		    .launchImage("launchImage1.png")
 		    .titleLocArgs(["Jenna","Frank"]).locArgs(["Jenna","Frank"]).subtitle("Bluemix")
 		    .title("IBM")
-		    .attachmentUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+		    .attachmentUrl("https://developer.blackberry.com/native/files/documentation/images/text_messages_icon.png")
 		    .build();
 		
 		/* Options style and lights are new optional settings added to FCM,
 		/ * If your require lights and style settings you can create style and lights objects as listed           
 			*/
 		var style = PushMessageBuilder.FCMStyle.type(Notification.FCMStyleTypes
-		    .BIGTEXT_NOTIFICATION).text("IBM Push").title("Big Text Notification").url("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+		    .BIGTEXT_NOTIFICATION).text("IBM Push").title("Big Text Notification").url("https://developer.blackberry.com/native/files/documentation/images/text_messages_icon.png")
 		    .lines(["IBM", "Bluemix", "Big Text Notification"]).build();
 		var lights = PushMessageBuilder.FCMLights.ledArgb(Notification.FCMLED.BLACK)
 		    .ledOffMs(1).ledOnMs(1).build();
@@ -110,7 +110,7 @@ npm install bluemix-push-notifications --save
 		    .interactiveCategory("Accept").delayWhileIdle(true)
 		    .payload({ "alert" : "20% Off for you" })
 		    .priority(Notification.FCMPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
-		    .icon("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+		    .icon("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .sync(true).visibility(Notification.Visibility.PUBLIC)
 		    .style(style).lights(lights).build();
 		
@@ -121,19 +121,19 @@ npm install bluemix-push-notifications --save
 		
 		//For Firefox
 		var firefoxWeb = PushMessageBuilder.FirefoxWeb.title("IBM")
-		    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
 		
 		//For ChromeAppExtension. 
 		//You need to provide proper iconUrl or else chromeApp would not work.
 		var chromeAppExt = PushMessageBuilder.ChromeAppExt.collapseKey("ping")
 		    .delayWhileIdle(true).title("IBM")
-		    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg").timeToLive(1.0)
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png").timeToLive(1.0)
 		    .payload({ "alert" : "20% Off for you" }).build();
 		
 		//For Chrome
 		var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
-		    .iconUrl("http://www.iconninja.com/files/689/621/150/ibm-icon.svg")
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
 	```
 
