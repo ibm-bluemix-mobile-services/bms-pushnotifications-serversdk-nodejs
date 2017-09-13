@@ -1,5 +1,5 @@
-var Notification = require("../lib/PushNotifications").Notification;
-var PushMessageBuilder = require("../lib/PushNotifications").PushMessageBuilder;
+var Notification = require("../lib/Notification.js");
+var PushMessageBuilder = require("../lib/PushMessageBuilder.js");
 
 var assert = require("chai").assert;
 var _ = require("underscore");
