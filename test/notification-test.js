@@ -230,5 +230,4 @@ var _ = require("underscore");
             assert.equal(_.isEmpty(notification.settings), true);
         });
     });
-
 });
