@@ -8,7 +8,7 @@
 
 ## Summary
 
-BluemixPushNotifications is a Node.js SDK for sending push notifications via Bluemix Push Notifications services.
+BluemixPushNotifications is a Node.js SDK for sending push notifications through the IBM Bluemix Push Notifications service.
 
 
 ## Installation
@@ -17,61 +17,152 @@ BluemixPushNotifications is a Node.js SDK for sending push notifications via Blu
 npm install bluemix-push-notifications --save
 ```
 
+## Prerequisite
+
+- `Ensure that the following prerequisites are in place:`
+
+	```javascript
+	var PushNotifications = require('bluemix-push-notifications').PushNotifications;
+	var Notification = require('bluemix-push-notifications').Notification;
+	var PushMessageBuilder = require('bluemix-push-notifications').PushMessageBuilder;
+	```
+
 
 ## Usage
 
-```javascript
-var PushNotifications = require('bluemix-push-notifications').PushNotifications;
-var Notification = require('bluemix-push-notifications').Notification;
-```
+	
+1. Initialize PushNotifications with details about your Bluemix Push Notifications service. 
+	```javascript
+	var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
+	```
 
-Initialize PushNotifications with details about your Bluemix Push Notifications service. 
+	The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. 
+	The four options are :
+	- `PushNotifications.Region.US_SOUTH`
+	- `PushNotifications.Region.UK`
+	- `PushNotifications.Region.SYDNEY` and
+	- `PushNotifications.Region.FRANKFURT`
+	If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
 
-```javascript
-var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
-```
-**Note:** The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. The three options are `PushNotifications.Region.US_SOUTH`, `PushNotifications.Region.UK`, and `PushNotifications.Region.SYDNEY`. If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
+	If you are using dedicated service, use `overrideServerHost` and add any of the bluemixRegion (bluemix region) value.
+	
+	```javascript
+	PushNotifications.overrideServerHost = "YOUR_SERVICE_HOST";
+	var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
+	```
 
-Next, create the push notification that you want to broadcast by supplying the alert message you want displayed. 
+2. Create the push notification that you want to broadcast by supplying the alert message you want to be displayed. An optional URL may be supplied with the alert.
+	```javascript
+	var message = PushMessageBuilder.Message.alert("20% Off for you")
+	.url("www.ibm.com").build();
+	var notificationExample =  Notification.message(message).build();
+	```
+	Or
 
-```javascript
-var notificationExample = new Notification("Testing BluemixPushNotifications");
-```
+	You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
 
-An optional URL may be supplied with the alert.
+3. Create the target. You can either set `deviceIds` or `userIds` or platforms or `tagNames`.
 
-```javascript
-notificationExample.setUrl("www.example.com");
-```
+	The following code snippet uses platforms, same way you can do it for deviceIds(...) or userIds(...) or tagNames(...).
 
-You can specify which devices, users, platforms, tag-subscriptions the notification should be sent to and customize the alert they receive.
+	```javascript
+	var target = PushMessageBuilder.Target.platforms(
+	    [Notification.Platform.Apple, Notification.Platform.Google,
+	    Notification.Platform.WebChrome,Notification.Platform.WebFirefox,
+	    	Notification.Platform.WebSafari,Notification.Platform.AppExtChrome]).build();
+	```
 
-```javascript
-// setTarget(deviceIds, userIds, platforms, tagNames)
-notificationExample.setTarget(["device1", "device2"], 
-                              ["user1", "user2"], 
-                              [Notification.TargetPlatform.Apple, Notification.TargetPlatform.Google], 
-                              ["tag1", "tag2"]);
-// setApnsSettings(badge, category, iosActionKey, sound, type, payload)
-notificationExample.setApnsSettings(1, "category", "iosActionKey", "sound.mp3", Notification.ApnsType.DEFAULT, {key: "value"});
-// setGcmSettings(collapseKey, delayWhileIdle, payload, priority, sound, timeToLive)
-notificationExample.setGcmSettings("collapseKey", true, "payload", Notification.GcmPriority.DEFAULT, "sound.mp3", 1.0);
-```
+4. Create the message as listed:
+	```javascript
+	var message = PushMessageBuilder.Message.alert("20% Off Offer for you")
+	.url("www.ibm.com").build();
+	```
+	
+	Functionality added for FirefoxWeb, ChromeWeb, SafariWeb, ChromeAppExtension and extra optional settings introduced for Apns and FCM.
 
-Finally, send the Push notification.
+5. Set all the optional settings for platforms (APNs, FCM, Safari etc).
+	
+	```javascript
+		//For APNs settings
+		var apns = PushMessageBuilder.APNs.badge(1).interactiveCategory("Accept")
+		    .iosActionKey("PUSH_OFFER").sound("sound.mp3").type(Notification.APNsType.DEFAULT)
+		    .payload({ "alert" : "20% Off for you" }).titleLocKey("OFFER")
+		    .locKey("REPLYTO")
+		    .launchImage("launchImage1.png")
+		    .titleLocArgs(["Jenna","Frank"]).locArgs(["Jenna","Frank"]).subtitle("Bluemix")
+		    .title("IBM")
+		    .attachmentUrl("https://developer.blackberry.com/native/files/documentation/images/text_messages_icon.png")
+		    .build();
+		
+		/* Options style and lights are new optional settings added to FCM,
+		/ * If your require lights and style settings you can create style and lights objects as listed           
+			*/
+		var style = PushMessageBuilder.FCMStyle.type(Notification.FCMStyleTypes
+		    .BIGTEXT_NOTIFICATION).text("IBM Push").title("Big Text Notification").url("https://developer.blackberry.com/native/files/documentation/images/text_messages_icon.png")
+		    .lines(["IBM", "Bluemix", "Big Text Notification"]).build();
+		var lights = PushMessageBuilder.FCMLights.ledArgb(Notification.FCMLED.BLACK)
+		    .ledOffMs(1).ledOnMs(1).build();
+		
+		//For FCM settings.
+		//Also timetolive setting is provided which specifies how long (in seconds)
+		//The message should be kept in FCM storage if the device is offline.
+		var fcm = PushMessageBuilder.FCM.collapseKey("ping")
+		    .interactiveCategory("Accept").delayWhileIdle(true)
+		    .payload({ "alert" : "20% Off for you" })
+		    .priority(Notification.FCMPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
+		    .icon("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
+		    .sync(true).visibility(Notification.Visibility.PUBLIC)
+		    .style(style).lights(lights).build();
+		
+		//For Safari. 
+		//All the three settings are mandatory to provide.
+		var safariWeb = PushMessageBuilder.SafariWeb.title("IBM").urlArgs(["www.IBM.com"])
+		    .action("View").build();
+		
+		//For Firefox
+		var firefoxWeb = PushMessageBuilder.FirefoxWeb.title("IBM")
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
+		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
+		
+		//For ChromeAppExtension. 
+		//You need to provide proper iconUrl or else chromeApp would not work.
+		var chromeAppExt = PushMessageBuilder.ChromeAppExt.collapseKey("ping")
+		    .delayWhileIdle(true).title("IBM")
+		    .iconUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTptVxkAVpfhZO0h2KXbnQLg16yvDa7uF-y1t5KGmABDxJ13XoHR1YklGM").timeToLive(1.0)
+		    .payload({ "alert" : "20% Off for you" }).build();
+		
+		//For Chrome
+		var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
+		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
+		    .timeToLive(1.0).payload({ "alert" : "20% Off for you" }).build();
+	```
 
-```javascript
-myPushNotifications.send(notificationExample, function(error, response, body) {
-    console.log("Error: " + error);
-    console.log("Response: " + JSON.stringify(response));
-    console.log("Body: " + body);
-});
-```
+6. Create settings with all platforms optional settings.
+
+	```javascript
+	var settings = PushMessageBuilder.Settings.apns(apns).fcm(fcm).safariWeb(safariWeb)
+	    .firefoxWeb(firefoxWeb).chromeAppExt(chromeAppExt).chromeWeb(chromeWeb).build();       
+	```
+7. Create final notification using target, settings, and message.
+	
+	```javascript
+	var notificationExample = Notification.message(message)
+	    .target(target).settings(settings).build();
+	```
+8. Send the Push notification.
+
+	```javascript
+	myPushNotifications.send(notificationExample, function(error, response, body) {
+	    console.log("Error: " + error);
+	    console.log("Response: " + JSON.stringify(response));
+	    console.log("Body: " + body);
+	});
+	```
 
 
 ## License
 
-Copyright 2016 IBM Corp.
+Copyright 2017 IBM Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
