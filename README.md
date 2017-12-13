@@ -8,13 +8,13 @@
 
 ## Summary
 
-BluemixPushNotifications is a Node.js SDK for sending push notifications through the IBM Bluemix Push Notifications service.
+IBMPushNotifications is a Node.js SDK for sending push notifications through the IBM Cloud Push Notifications service.
 
 
 ## Installation
 
 ```bash
-npm install bluemix-push-notifications --save
+npm install ibm-push-notifications --save
 ```
 
 ## Prerequisite
@@ -22,29 +22,29 @@ npm install bluemix-push-notifications --save
 - `Ensure that the following prerequisites are in place:`
 
 	```javascript
-	var PushNotifications = require('bluemix-push-notifications').PushNotifications;
-	var Notification = require('bluemix-push-notifications').Notification;
-	var PushMessageBuilder = require('bluemix-push-notifications').PushMessageBuilder;
+	var PushNotifications = require('ibm-push-notifications').PushNotifications;
+	var Notification = require('ibm-push-notifications').Notification;
+	var PushMessageBuilder = require('ibm-push-notifications').PushMessageBuilder;
 	```
 
 
 ## Usage
 
 	
-1. Initialize PushNotifications with details about your Bluemix Push Notifications service. 
+1. Initialize PushNotifications with details about your IBM Cloud Push Notifications service. 
 	```javascript
 	var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
 	```
 
-	The first parameter in the initializer is the Bluemix region where the Push Notifications service is hosted. 
+	The first parameter in the initializer is the IBM Cloud region where the Push Notifications service is hosted. 
 	The four options are :
 	- `PushNotifications.Region.US_SOUTH`
 	- `PushNotifications.Region.UK`
 	- `PushNotifications.Region.SYDNEY` and
 	- `PushNotifications.Region.FRANKFURT`
-	If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the Bluemix app's environment variables, provided that your Node.js app is bound to the Bluemix app.
+	If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the IBM Cloud app's environment variables, provided that your Node.js app is bound to the IBM Cloud app.
 
-	If you are using dedicated service, use `overrideServerHost` and add any of the bluemixRegion (bluemix region) value.
+	If you are using dedicated service, use `overrideServerHost` and add any of the bluemixRegion (IBM Cloud region) value.
 	
 	```javascript
 	PushNotifications.overrideServerHost = "YOUR_SERVICE_HOST";
@@ -89,7 +89,7 @@ npm install bluemix-push-notifications --save
 		    .payload({ "alert" : "20% Off for you" }).titleLocKey("OFFER")
 		    .locKey("REPLYTO")
 		    .launchImage("launchImage1.png")
-		    .titleLocArgs(["Jenna","Frank"]).locArgs(["Jenna","Frank"]).subtitle("Bluemix")
+		    .titleLocArgs(["Jenna","Frank"]).locArgs(["Jenna","Frank"]).subtitle("IBM Cloud")
 		    .title("IBM")
 		    .attachmentUrl("https://developer.blackberry.com/native/files/documentation/images/text_messages_icon.png")
 		    .build();
@@ -99,7 +99,7 @@ npm install bluemix-push-notifications --save
 			*/
 		var style = PushMessageBuilder.FCMStyle.type(Notification.FCMStyleTypes
 		    .BIGTEXT_NOTIFICATION).text("IBM Push").title("Big Text Notification").url("https://developer.blackberry.com/native/files/documentation/images/text_messages_icon.png")
-		    .lines(["IBM", "Bluemix", "Big Text Notification"]).build();
+		    .lines(["IBM", "IBM Cloud", "Big Text Notification"]).build();
 		var lights = PushMessageBuilder.FCMLights.ledArgb(Notification.FCMLED.BLACK)
 		    .ledOffMs(1).ledOnMs(1).build();
 		
