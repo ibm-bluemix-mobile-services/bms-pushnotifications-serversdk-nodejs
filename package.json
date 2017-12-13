@@ -1,5 +1,5 @@
 {
-  "name": "IBM-push-notifications",
+  "name": "ibm-push-notifications",
   "dependencies": {
     "cfenv": ">=1.0.0",
     "request": ">=2.0.0"
