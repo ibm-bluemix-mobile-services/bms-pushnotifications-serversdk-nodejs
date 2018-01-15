@@ -161,7 +161,7 @@ npm install ibm-push-notifications --save
 
 ## Send bulk Push Notifications,
 
-To send bulk push notifications do teh following,
+To send bulk push notifications do the following,
 
 ```javascript
 myPushNotifications.sendbulk([notificationExample,notificationExample1,notificationExample2], function(error, response, body) {
