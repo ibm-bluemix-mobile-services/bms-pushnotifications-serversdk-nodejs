@@ -11,7 +11,7 @@
     "coveralls": "2.11.15",
     "chai": ">=3.0.0"
   },
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Library for sending push notifications via IBM Cloud Push Notifications services",
   "main": "./lib/PushNotifications.js",
   "scripts": {
