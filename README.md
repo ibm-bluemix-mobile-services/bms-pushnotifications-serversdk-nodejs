@@ -25,6 +25,7 @@ npm install ibm-push-notifications --save
 	var PushNotifications = require('ibm-push-notifications').PushNotifications;
 	var Notification = require('ibm-push-notifications').Notification;
 	var PushMessageBuilder = require('ibm-push-notifications').PushMessageBuilder;
+	var PushNotificationsApiKey = require('ibm-push-notifications').PushNotificationsWithApiKey;
 	```
 
 
@@ -32,11 +33,27 @@ npm install ibm-push-notifications --save
 
 	
 1. Initialize PushNotifications with details about your IBM Cloud Push Notifications service. 
+	
+#### Initialize with AppSecret
 	```javascript
 	var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-push-service-appSecret");
 	```
 
-	The first parameter in the initializer is the IBM Cloud region where the Push Notifications service is hosted. 
+#### Initialize with ApiKey
+
+	```javascript
+	
+	//Initialize
+	var myPushNotifications = new PushNotificationsApiKey(PushNotifications.Region.US_SOUTH, "your-bluemix-app-guid", "your-bluemix-push-apikey");
+	
+	// Get authtoken
+	myPushNotifications.getAuthToken(function(hastoken,token){
+		console.log(hastoken, token);
+	}
+	```
+>**Note**: If you are using the APIKEY for Initialisation kindly call `getAuthToken()` , bofre sending any notification. This will add an Authorization header for the request.
+
+   The first parameter in the initializer is the IBM Cloud region where the Push Notifications service is hosted. 
 	The four options are :
 	- `PushNotifications.Region.US_SOUTH`
 	- `PushNotifications.Region.UK`
@@ -45,7 +62,6 @@ npm install ibm-push-notifications --save
 	- `PushNotifications.Region.US_EAST`
 	
 	If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the IBM Cloud app's environment variables, provided that your Node.js app is bound to the IBM Cloud app.
-
 	If you are using dedicated service, use `overrideServerHost` and add any of the bluemixRegion (IBM Cloud region) value.
 	
 	```javascript
