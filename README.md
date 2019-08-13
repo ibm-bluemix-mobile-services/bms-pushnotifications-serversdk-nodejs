@@ -129,6 +129,7 @@ npm install ibm-push-notifications --save
 		    .interactiveCategory("Accept").delayWhileIdle(true)
 			.payload({ "alert" : "20% Off for you" })
 			.androidTitle("Title for Android")
+			.androidChannel("ChannelName")
 		    .priority(Notification.FCMPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0)
 		    .icon("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
 		    .sync(true).visibility(Notification.Visibility.PUBLIC)
