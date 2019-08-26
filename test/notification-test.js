@@ -104,7 +104,7 @@ var _ = require("underscore");
             var style = PushMessageBuilder.FCMStyle.type(Notification.FCMStyleTypes.BIGTEXT_NOTIFICATION).text("text").title("title").url("url").lines(["line1"]).build();
             var lights = PushMessageBuilder.FCMLights.ledArgb(Notification.FCMLED.BLACK).ledOffMs(1).ledOnMs(1).build();
 
-            var fcm = PushMessageBuilder.FCM.collapseKey("collapseKey").androidTitle("Title for Android").androidChannel("androidChannel").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
+            var fcm = PushMessageBuilder.FCM.collapseKey("collapseKey").androidTitle("Title for Android").interactiveCategory("interactiveCategory").delayWhileIdle(true).payload({ key: "value" })
                 .priority(Notification.FCMPriority.DEFAULT).sound("sound.mp3").timeToLive(1.0).icon("icon").sync(true).visibility(Notification.Visibility.PUBLIC).style(style).lights(lights).build();
 
             var settings = PushMessageBuilder.Settings.fcm(fcm).build();
