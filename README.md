@@ -58,6 +58,7 @@ npm install ibm-push-notifications --save
 	- `PushNotifications.Region.US_SOUTH`
 	- `PushNotifications.Region.UK`
 	- `PushNotifications.Region.SYDNEY` 
+	- `PushNotifications.Region.JP_TOK` 
 	- `PushNotifications.Region.FRANKFURT` and 
 	- `PushNotifications.Region.US_EAST`
 	
