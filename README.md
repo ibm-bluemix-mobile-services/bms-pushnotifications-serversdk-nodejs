@@ -131,7 +131,7 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 		    .build();
 	```
 - FCM
-	```
+	```javascript
 		/* Options style and lights are new optional settings added to FCM,
 		/ * If your require lights and style settings you can create style and lights objects as listed           
 			*/
@@ -155,7 +155,7 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 	```
 - Safari
 
-	```
+	```javascript
 		//For Safari. 
 		//All the three settings are mandatory to provide.
 		var safariWeb = PushMessageBuilder.SafariWeb.title("IBM").urlArgs(["www.IBM.com"])
@@ -164,7 +164,7 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 	```
 - Firefox
 
-	```
+	```javascript
 		//For Firefox
 		var firefoxWeb = PushMessageBuilder.FirefoxWeb.title("IBM")
 		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
@@ -173,7 +173,7 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 	```
 - ChromeAppExtension
 
-	```
+	```javascript
 		//For ChromeAppExtension. 
 		//You need to provide proper iconUrl or else chromeApp would not work.
 		var chromeAppExt = PushMessageBuilder.ChromeAppExt.collapseKey("ping")
@@ -183,7 +183,7 @@ You can specify which devices, users, platforms, tag-subscriptions the notificat
 	```
 - Chrome
 
-	```
+	```javascript
 		//For Chrome
 		var chromeWeb = PushMessageBuilder.ChromeWeb.title("IBM")
 		    .iconUrl("http://www.iconsdb.com/icons/preview/purple/message-2-xxl.png")
