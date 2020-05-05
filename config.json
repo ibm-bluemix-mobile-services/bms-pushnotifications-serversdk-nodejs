@@ -1,0 +1,28 @@
+{
+  "source": {
+    "include": [ "./lib" ],
+    "exclude": [
+      "./.github/",
+      "./coverage/",
+      "./dist/",
+      "./doc/watson-developer-cloud/",
+      "./examples/",
+      "./scripts/",
+      "./node_modules/",
+      "./test/",
+      "./eslintrc.js"
+    ]
+  },
+  "opts": {
+    "package": "package.json",
+    "readme": "README.md",
+    "recurse": true,
+    "destination": "./doc/"
+  },
+  "templates": {
+        "default": {
+            "outputSourceFiles": false
+        }
+    },
+  "plugins": ["plugins/markdown"]
+}
