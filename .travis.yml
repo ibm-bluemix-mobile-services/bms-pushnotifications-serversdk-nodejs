@@ -1,17 +1,11 @@
 language: node_js
 
 node_js:
-  - "6.10"
-  - "6.9"
-  - "6.8"
-  - "6.7"
-  - "6.6"
-  - "6.5"
-  - "6.4"
-  - "6.3"
-  - "6.2"
-  - "6.1"
-  - "6.0"
+  - "11.0"
+  - "10.0"
+  - "9.0"
+  - "8.0"
+  - "7.0"
 
 notifications:
   email:
@@ -29,4 +23,6 @@ after_success:
   # publish coverage info to coveralls
   - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [[ "${TRAVIS_JOB_NUMBER}" = *".1"* ]]; then
       cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js;
+      bash scripts/release.sh;
+      bash scripts/publish-docs.sh;
     fi

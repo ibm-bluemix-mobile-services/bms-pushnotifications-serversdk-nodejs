@@ -1,0 +1,11 @@
+cd ~/Documents;
+git clone https://ibm-bluemix-mobile-services:${GH_TOKEN}@github.com/ibm-bluemix-mobile-services/bms-pushnotifications-serversdk-nodejs.git;
+cd bms-pushnotifications-serversdk-nodejs;
+git remote rm origin;
+git remote add origin https://ibm-bluemix-mobile-services:${GH_TOKEN}@github.com/ibm-bluemix-mobile-services/bms-pushnotifications-serversdk-nodejs.git;
+echo $token >> $HOME/.npmrc;
+version=$(jq '.version' package.json | tr -d '"');
+git tag "${version}";
+git push origin --tags;
+npm publish;
+echo "Published NodeJS server Push plugin version ${version}";
