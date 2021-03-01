@@ -6,12 +6,8 @@ Before you open an issue, please check if a similar issue already exists or has 
 - [ ] Steps to reproduce
 - [ ] Expected behavior
 - [ ] Actual behavior
-- [ ] Java Version
 - [ ] Swift Version
 - [ ] Node Js Version
-- [ ] Chrome/Firefox/Safari Version
-- [ ] Min - Max targetted Android version
-- [ ] Min - Max targetted IOS version
 
 
 ### When you open an issue for a feature request, please add as much detail as possible:
