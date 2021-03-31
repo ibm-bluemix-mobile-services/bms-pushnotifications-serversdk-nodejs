@@ -71,6 +71,7 @@ The four options are :
 - `PushNotifications.Region.JP_TOK` 
 - `PushNotifications.Region.FRANKFURT`  
 - `PushNotifications.Region.US_EAST`
+- `PushNotifications.Region.JP_OSA`
 	
 	If `null` is supplied for the last 2 parameters, their values will be automatically retrieved from the IBM Cloud app's environment variables, provided that your Node.js app is bound to the IBM Cloud app.
 	If you are using dedicated service, use `overrideServerHost` and add any of the bluemixRegion (IBM Cloud region) value.
